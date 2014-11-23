@@ -45,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Broadcast.cs" />
+    <Compile Include="BaseNetwork.cs" />
+    <Compile Include="ExampleAlgorithms\Broadcast.cs" />
+    <Compile Include="ExampleNetworks\Ring.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

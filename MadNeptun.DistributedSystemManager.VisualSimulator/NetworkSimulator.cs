@@ -16,10 +16,6 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                     ToList().Select(n => n.GetNetworkComponent());
             if(data.Count() > 0)
                 data.AsParallel().WithDegreeOfParallelism(data.Count()).ForAll(d => d.Recieve(message, sender));
-            else
-            {
-                var i = 0;
-            }
         }
 
         public override void Recieve(Message message, NodeId sender)

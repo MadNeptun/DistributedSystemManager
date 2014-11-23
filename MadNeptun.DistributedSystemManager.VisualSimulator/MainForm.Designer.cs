@@ -29,29 +29,36 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.btnClearLog = new System.Windows.Forms.Button();
+            this.btnRun = new System.Windows.Forms.Button();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.cbClassFromDll = new System.Windows.Forms.ComboBox();
             this.rbFromFile = new System.Windows.Forms.RadioButton();
-            this.rbFromList = new System.Windows.Forms.RadioButton();
             this.btnPickDll = new System.Windows.Forms.Button();
             this.cbAlgorithms = new System.Windows.Forms.ComboBox();
-            this.cbClassFromDll = new System.Windows.Forms.ComboBox();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.rbFromList = new System.Windows.Forms.RadioButton();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.txtCustomNetworStatus = new System.Windows.Forms.TextBox();
+            this.cbPredefinedNetworks = new System.Windows.Forms.ComboBox();
+            this.rbCustomNetwork = new System.Windows.Forms.RadioButton();
+            this.rbPredefinedNetwork = new System.Windows.Forms.RadioButton();
+            this.btnEditCustomNetwork = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.lbLog = new System.Windows.Forms.ListBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel1.Controls.Add(this.panel6);
             this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
@@ -60,78 +67,34 @@
             this.panel1.Size = new System.Drawing.Size(317, 520);
             this.panel1.TabIndex = 0;
             // 
-            // panel2
+            // panel6
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Location = new System.Drawing.Point(336, 13);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(462, 519);
-            this.panel2.TabIndex = 1;
+            this.panel6.Controls.Add(this.btnClearLog);
+            this.panel6.Controls.Add(this.btnRun);
+            this.panel6.Location = new System.Drawing.Point(3, 140);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(308, 109);
+            this.panel6.TabIndex = 9;
             // 
-            // rbFromFile
+            // btnClearLog
             // 
-            this.rbFromFile.AutoSize = true;
-            this.rbFromFile.Location = new System.Drawing.Point(3, 6);
-            this.rbFromFile.Name = "rbFromFile";
-            this.rbFromFile.Size = new System.Drawing.Size(14, 13);
-            this.rbFromFile.TabIndex = 0;
-            this.rbFromFile.TabStop = true;
-            this.rbFromFile.UseVisualStyleBackColor = true;
+            this.btnClearLog.Location = new System.Drawing.Point(4, 32);
+            this.btnClearLog.Name = "btnClearLog";
+            this.btnClearLog.Size = new System.Drawing.Size(75, 23);
+            this.btnClearLog.TabIndex = 5;
+            this.btnClearLog.Text = "Clear log";
+            this.btnClearLog.UseVisualStyleBackColor = true;
+            this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
             // 
-            // rbFromList
+            // btnRun
             // 
-            this.rbFromList.AutoSize = true;
-            this.rbFromList.Location = new System.Drawing.Point(3, 33);
-            this.rbFromList.Name = "rbFromList";
-            this.rbFromList.Size = new System.Drawing.Size(14, 13);
-            this.rbFromList.TabIndex = 1;
-            this.rbFromList.TabStop = true;
-            this.rbFromList.UseVisualStyleBackColor = true;
-            // 
-            // btnPickDll
-            // 
-            this.btnPickDll.Location = new System.Drawing.Point(236, 3);
-            this.btnPickDll.Name = "btnPickDll";
-            this.btnPickDll.Size = new System.Drawing.Size(69, 21);
-            this.btnPickDll.TabIndex = 3;
-            this.btnPickDll.Text = "Select Dll";
-            this.btnPickDll.UseVisualStyleBackColor = true;
-            // 
-            // cbAlgorithms
-            // 
-            this.cbAlgorithms.FormattingEnabled = true;
-            this.cbAlgorithms.Location = new System.Drawing.Point(23, 30);
-            this.cbAlgorithms.Name = "cbAlgorithms";
-            this.cbAlgorithms.Size = new System.Drawing.Size(282, 21);
-            this.cbAlgorithms.TabIndex = 4;
-            // 
-            // cbClassFromDll
-            // 
-            this.cbClassFromDll.FormattingEnabled = true;
-            this.cbClassFromDll.Location = new System.Drawing.Point(23, 3);
-            this.cbClassFromDll.Name = "cbClassFromDll";
-            this.cbClassFromDll.Size = new System.Drawing.Size(207, 21);
-            this.cbClassFromDll.TabIndex = 5;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.lbLog);
-            this.panel3.Location = new System.Drawing.Point(3, 145);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(308, 372);
-            this.panel3.TabIndex = 6;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.button3);
-            this.panel4.Controls.Add(this.button2);
-            this.panel4.Controls.Add(this.button1);
-            this.panel4.Location = new System.Drawing.Point(3, 71);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(308, 68);
-            this.panel4.TabIndex = 7;
+            this.btnRun.Location = new System.Drawing.Point(4, 3);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(75, 23);
+            this.btnRun.TabIndex = 4;
+            this.btnRun.Text = "Run";
+            this.btnRun.UseVisualStyleBackColor = true;
+            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
             // panel5
             // 
@@ -145,44 +108,144 @@
             this.panel5.Size = new System.Drawing.Size(308, 62);
             this.panel5.TabIndex = 8;
             // 
-            // button1
+            // cbClassFromDll
             // 
-            this.button1.Location = new System.Drawing.Point(104, 31);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Reset";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.cbClassFromDll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbClassFromDll.FormattingEnabled = true;
+            this.cbClassFromDll.Location = new System.Drawing.Point(23, 3);
+            this.cbClassFromDll.Name = "cbClassFromDll";
+            this.cbClassFromDll.Size = new System.Drawing.Size(201, 21);
+            this.cbClassFromDll.TabIndex = 5;
             // 
-            // button2
+            // rbFromFile
             // 
-            this.button2.Location = new System.Drawing.Point(14, 15);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Run";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.rbFromFile.AutoSize = true;
+            this.rbFromFile.Location = new System.Drawing.Point(3, 6);
+            this.rbFromFile.Name = "rbFromFile";
+            this.rbFromFile.Size = new System.Drawing.Size(14, 13);
+            this.rbFromFile.TabIndex = 0;
+            this.rbFromFile.TabStop = true;
+            this.rbFromFile.UseVisualStyleBackColor = true;
+            // 
+            // btnPickDll
+            // 
+            this.btnPickDll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPickDll.Location = new System.Drawing.Point(230, 3);
+            this.btnPickDll.Name = "btnPickDll";
+            this.btnPickDll.Size = new System.Drawing.Size(75, 23);
+            this.btnPickDll.TabIndex = 3;
+            this.btnPickDll.Text = "Select Dll";
+            this.btnPickDll.UseVisualStyleBackColor = true;
+            // 
+            // cbAlgorithms
+            // 
+            this.cbAlgorithms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAlgorithms.FormattingEnabled = true;
+            this.cbAlgorithms.Location = new System.Drawing.Point(23, 30);
+            this.cbAlgorithms.Name = "cbAlgorithms";
+            this.cbAlgorithms.Size = new System.Drawing.Size(282, 21);
+            this.cbAlgorithms.TabIndex = 4;
+            // 
+            // rbFromList
+            // 
+            this.rbFromList.AutoSize = true;
+            this.rbFromList.Location = new System.Drawing.Point(3, 33);
+            this.rbFromList.Name = "rbFromList";
+            this.rbFromList.Size = new System.Drawing.Size(14, 13);
+            this.rbFromList.TabIndex = 1;
+            this.rbFromList.TabStop = true;
+            this.rbFromList.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.txtCustomNetworStatus);
+            this.panel4.Controls.Add(this.cbPredefinedNetworks);
+            this.panel4.Controls.Add(this.rbCustomNetwork);
+            this.panel4.Controls.Add(this.rbPredefinedNetwork);
+            this.panel4.Controls.Add(this.btnEditCustomNetwork);
+            this.panel4.Location = new System.Drawing.Point(3, 71);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(308, 63);
+            this.panel4.TabIndex = 7;
+            // 
+            // txtCustomNetworStatus
+            // 
+            this.txtCustomNetworStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCustomNetworStatus.Location = new System.Drawing.Point(24, 5);
+            this.txtCustomNetworStatus.Name = "txtCustomNetworStatus";
+            this.txtCustomNetworStatus.ReadOnly = true;
+            this.txtCustomNetworStatus.Size = new System.Drawing.Size(200, 20);
+            this.txtCustomNetworStatus.TabIndex = 7;
+            // 
+            // cbPredefinedNetworks
+            // 
+            this.cbPredefinedNetworks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbPredefinedNetworks.FormattingEnabled = true;
+            this.cbPredefinedNetworks.Location = new System.Drawing.Point(23, 31);
+            this.cbPredefinedNetworks.Name = "cbPredefinedNetworks";
+            this.cbPredefinedNetworks.Size = new System.Drawing.Size(281, 21);
+            this.cbPredefinedNetworks.TabIndex = 6;
+            // 
+            // rbCustomNetwork
+            // 
+            this.rbCustomNetwork.AutoSize = true;
+            this.rbCustomNetwork.Location = new System.Drawing.Point(4, 8);
+            this.rbCustomNetwork.Name = "rbCustomNetwork";
+            this.rbCustomNetwork.Size = new System.Drawing.Size(14, 13);
+            this.rbCustomNetwork.TabIndex = 5;
+            this.rbCustomNetwork.TabStop = true;
+            this.rbCustomNetwork.UseVisualStyleBackColor = true;
+            // 
+            // rbPredefinedNetwork
+            // 
+            this.rbPredefinedNetwork.AutoSize = true;
+            this.rbPredefinedNetwork.Location = new System.Drawing.Point(4, 34);
+            this.rbPredefinedNetwork.Name = "rbPredefinedNetwork";
+            this.rbPredefinedNetwork.Size = new System.Drawing.Size(14, 13);
+            this.rbPredefinedNetwork.TabIndex = 4;
+            this.rbPredefinedNetwork.TabStop = true;
+            this.rbPredefinedNetwork.UseVisualStyleBackColor = true;
+            // 
+            // btnEditCustomNetwork
+            // 
+            this.btnEditCustomNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEditCustomNetwork.Location = new System.Drawing.Point(229, 3);
+            this.btnEditCustomNetwork.Name = "btnEditCustomNetwork";
+            this.btnEditCustomNetwork.Size = new System.Drawing.Size(75, 23);
+            this.btnEditCustomNetwork.TabIndex = 3;
+            this.btnEditCustomNetwork.Text = "Edit";
+            this.btnEditCustomNetwork.UseVisualStyleBackColor = true;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.lbLog);
+            this.panel3.Location = new System.Drawing.Point(3, 251);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(308, 266);
+            this.panel3.TabIndex = 6;
             // 
             // lbLog
             // 
             this.lbLog.FormattingEnabled = true;
-            this.lbLog.Location = new System.Drawing.Point(4, 4);
+            this.lbLog.Location = new System.Drawing.Point(0, 4);
             this.lbLog.Name = "lbLog";
             this.lbLog.ScrollAlwaysVisible = true;
-            this.lbLog.Size = new System.Drawing.Size(301, 368);
+            this.lbLog.Size = new System.Drawing.Size(304, 251);
             this.lbLog.TabIndex = 0;
             // 
-            // button3
+            // panel2
             // 
-            this.button3.Location = new System.Drawing.Point(207, 15);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Clear log";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Location = new System.Drawing.Point(336, 13);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(462, 519);
+            this.panel2.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -195,10 +258,12 @@
             this.Name = "MainForm";
             this.Text = "Distributed System Simulator";
             this.panel1.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -214,11 +279,16 @@
         private System.Windows.Forms.RadioButton rbFromFile;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ListBox lbLog;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox txtCustomNetworStatus;
+        private System.Windows.Forms.ComboBox cbPredefinedNetworks;
+        private System.Windows.Forms.RadioButton rbCustomNetwork;
+        private System.Windows.Forms.RadioButton rbPredefinedNetwork;
+        private System.Windows.Forms.Button btnEditCustomNetwork;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Button btnClearLog;
+        private System.Windows.Forms.Button btnRun;
     }
 }
 

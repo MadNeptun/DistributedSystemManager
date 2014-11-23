@@ -43,7 +43,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         private void RecieveMessage(Message message, NodeId sender)
         {
-            TriggerNodeMessage(this._id.Id+" Message '"+message.Value+"' recieved from node " + sender.Id+".");
+            TriggerNodeMessage("Node " +this._id.Id+" Message '"+message.Value+"' recieved from node " + sender.Id+".");
             SendMessage(_algorithm.RecieveMessage(message, sender, _neighbors));
         }
 
@@ -66,10 +66,11 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             return _id;
         }
 
-        public void SetAlgorithm(DistributedAlgorithm algorithm)
+        public void SetAlgorithm(DistributedAlgorithm algorithm, bool silentMode = true)
         {
             _algorithm = algorithm;
-            TriggerNodeMessage("Algorithm changed "+_id.Id+".");
+            if(!silentMode)
+                TriggerNodeMessage("Algorithm changed "+_id.Id+".");
         }
 
         public NetworkComponent GetNetworkComponent()
@@ -77,11 +78,12 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             return _networkComponent;
         }
 
-        public void SetNetworkComponent(NetworkComponent component)
+        public void SetNetworkComponent(NetworkComponent component, bool silentMode = true)
         {
             _networkComponent = component;
             Subscribe();
-            TriggerNodeMessage("Network component changed "+_id.Id+".");
+            if (!silentMode)
+                TriggerNodeMessage("Network component changed "+_id.Id+".");
         }
 
         public void ExecuteInit(Message initMessage)

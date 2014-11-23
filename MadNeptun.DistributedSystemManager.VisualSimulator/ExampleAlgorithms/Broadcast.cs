@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MadNeptun.DistributedSystemManager.Core.Objects;
-namespace MadNeptun.DistributedSystemManager.VisualSimulator
+namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
 {
     class Broadcast : DistributedAlgorithm
     {
@@ -35,6 +35,11 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                 Status = State.Sent;
                 return new OperationResult() { SendTo = neighbors.Where(n => n.Id != sender.Id).ToList(), Message = message };
             }
+        }
+
+        public override string ToString()
+        {
+            return "Broadcast";
         }
     }
 }
