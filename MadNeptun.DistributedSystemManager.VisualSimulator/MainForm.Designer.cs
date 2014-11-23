@@ -225,6 +225,9 @@
             // 
             // panel3
             // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.lbLog);
             this.panel3.Location = new System.Drawing.Point(3, 251);
             this.panel3.Name = "panel3";
@@ -233,6 +236,9 @@
             // 
             // lbLog
             // 
+            this.lbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbLog.FormattingEnabled = true;
             this.lbLog.Location = new System.Drawing.Point(0, 4);
             this.lbLog.Name = "lbLog";

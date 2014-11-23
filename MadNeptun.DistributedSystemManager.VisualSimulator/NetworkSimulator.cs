@@ -14,11 +14,23 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         {
             var data = NodesManager.Instance.Nodes.
                 Where(n => recievers.Select(s => s.Id).Contains(n.GetId().Id)).ToList();
-            if(data.Count() > 0)
+            if (data.Count() > 0)
             {
-                data.AsParallel().WithDegreeOfParallelism(data.Count).ForAll(t => t.GetNetworkComponent().Recieve(message, sender));
+
+                foreach (var node in data)
+                {
+                    Thread t = new Thread(Act);
+                    t.Start(new List<object>() { node.GetNetworkComponent(), sender, message });
+                    t.Join(1000);
+                }
             }
 
+        }
+
+        private static void Act(object args)
+        {
+            var data = (List<object>)args;
+            ((NetworkComponent)data[0]).Recieve((Message)data[2], (NodeId)data[1]);
         }
 
         public override void Recieve(Message message, NodeId sender)
