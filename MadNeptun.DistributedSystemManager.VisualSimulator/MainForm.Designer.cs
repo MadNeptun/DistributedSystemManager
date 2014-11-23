@@ -112,6 +112,7 @@
             // 
             this.cbClassFromDll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbClassFromDll.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbClassFromDll.FormattingEnabled = true;
             this.cbClassFromDll.Location = new System.Drawing.Point(23, 3);
             this.cbClassFromDll.Name = "cbClassFromDll";
@@ -142,10 +143,11 @@
             // 
             this.cbAlgorithms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAlgorithms.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbAlgorithms.FormattingEnabled = true;
             this.cbAlgorithms.Location = new System.Drawing.Point(23, 30);
             this.cbAlgorithms.Name = "cbAlgorithms";
-            this.cbAlgorithms.Size = new System.Drawing.Size(282, 21);
+            this.cbAlgorithms.Size = new System.Drawing.Size(281, 21);
             this.cbAlgorithms.TabIndex = 4;
             // 
             // rbFromList
@@ -184,6 +186,7 @@
             // 
             this.cbPredefinedNetworks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbPredefinedNetworks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPredefinedNetworks.FormattingEnabled = true;
             this.cbPredefinedNetworks.Location = new System.Drawing.Point(23, 31);
             this.cbPredefinedNetworks.Name = "cbPredefinedNetworks";

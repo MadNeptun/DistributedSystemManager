@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,7 +18,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         public MainForm()
         {
             InitializeComponent();
-            LoadPredefinedAlorithm();
+            LoadPredefinedAlgorithm();
             LoadPredefinedNetworks();
         }
 
@@ -29,10 +30,17 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 
         }
 
-        protected void LoadPredefinedAlorithm()
+        protected void LoadPredefinedAlgorithm()
         {
             cbAlgorithms.Items.Clear();
-            cbAlgorithms.Items.Add(new ExampleAlgorithms.Broadcast());
+
+            var algorithclasses = Assembly.GetCallingAssembly().GetTypes().Where(t => t.IsClass && t.BaseType != null && t.BaseType == typeof(DistributedAlgorithm)).ToList();
+
+            foreach (Type type in algorithclasses)
+            {
+                cbAlgorithms.Items.Add(Activator.CreateInstance(type));
+            }
+
             cbAlgorithms.SelectedIndex = 0;
             rbFromList.Checked = true;
         }
@@ -40,7 +48,14 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         protected void LoadPredefinedNetworks()
         {
             cbPredefinedNetworks.Items.Clear();
-            cbPredefinedNetworks.Items.Add(new ExampleNetworks.Ring());
+
+            var networkclasses = Assembly.GetCallingAssembly().GetTypes().Where(t => t.IsClass && t.BaseType != null && t.BaseType == typeof(BaseNetwork)).ToList();
+            
+            foreach(Type type in networkclasses)
+            {
+                cbPredefinedNetworks.Items.Add(Activator.CreateInstance(type));
+            }
+
             cbPredefinedNetworks.SelectedIndex = 0;    
             rbPredefinedNetwork.Checked = true;
         }
@@ -51,7 +66,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             DistributedAlgorithm algorithm = rbFromList.Checked ? (DistributedAlgorithm)cbAlgorithms.SelectedItem : (DistributedAlgorithm)cbClassFromDll.SelectedItem;
             NodesManager.Instance.Nodes.Clear();
             NodesManager.Instance.Nodes.AddRange(network.GetNetwork(algorithm, new NetworkSimulator(), node_OnNodeMessage));
-            var message = new MadNeptun.DistributedSystemManager.Core.Objects.Message() { Value = "AAA" };
+            var message = new MadNeptun.DistributedSystemManager.Core.Objects.Message() { Value = "1" };
             NodesManager.Instance.PerformInit(NodesManager.Instance.Nodes.First().GetId(), message);
         }
 

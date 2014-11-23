@@ -1,14 +1,15 @@
-﻿using System;
+﻿using MadNeptun.DistributedSystemManager.Core.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using MadNeptun.DistributedSystemManager.Core.Objects;
+
 namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
 {
-    class Broadcast : DistributedAlgorithm
+    class DistanceFromStart : DistributedAlgorithm
     {
-        public Broadcast()
+
+        public DistanceFromStart()
         {
             Status = State.Idle;
         }
@@ -22,24 +23,34 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
 
         public override OperationResult Init(Message message, IEnumerable<NodeId> neighbors)
         {
-            Status = Broadcast.State.Sent;
-            return new OperationResult() { SendTo = neighbors.ToList(), Message = message };
+            Status = State.Sent;
+            var result = new OperationResult();
+            result.Message = message;
+            result.Message.Value = "1";
+            result.SendTo = neighbors.ToList();
+            return result;
         }
 
         public override OperationResult RecieveMessage(Message message, NodeId sender, IEnumerable<NodeId> neighbors)
         {
-            if (Status == State.Sent)
+            if(Status == State.Sent)
+            {
                 return new OperationResult() { SendTo = new List<NodeId>(), Message = message };
+            }
             else
             {
                 Status = State.Sent;
-                return new OperationResult() { SendTo = neighbors.Where(n => n.Id != sender.Id).ToList(), Message = message };
+                int number = Int32.Parse(message.Value);
+                number++;
+                var msg = new Message() { Value = number.ToString() };
+                return new OperationResult() { SendTo = neighbors.Where(n => n.Id != sender.Id).ToList(), Message = msg };
             }
         }
 
         public override string ToString()
         {
-            return "Broadcast message";
+            return "Distance from start";
         }
+
     }
 }
