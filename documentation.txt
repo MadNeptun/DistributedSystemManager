@@ -1,0 +1,21 @@
+Title:
+	Distributed System Manager
+Abstract:
+	Purpose of this project is to create a basic set of tools for creation and administration for distributed
+	networks. For scholar and demonstration purposes we should create classic window application that should
+	allow to simulate behavior of distributed network: in this particular case message transmision between nodes.
+Author:
+	Piotr Rachwał
+Features (tools):
+	# Creation of node, with given algorithm and network connection component.
+	# 'Hot swap' of algorithm/neighborhood nodes/network connection component.
+	# SDK for custom algorithm/network connection component.
+	# Node multitasking (network should be able to process multiple init requests in same time).
+Features (application):
+	# Visual presentation of message transmision.
+	# Set of predefined algorithms and network scheme.
+	# Build-in network connection component for simulation purposes.
+	# Creation of your own network.
+Features (further plans):
+	# Creation of parent node that will allow to host multiple nodes with diffrent algorithms.
+	# Remote managment of child nodes over parent network (creation, algorithm swap, etc.).
