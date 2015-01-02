@@ -21,7 +21,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                 {
                     Thread t = new Thread(Act);
                     t.Start(new List<object>() { node.GetNetworkComponent(), sender, message });
-                    t.Join(1000);
+                    t.Join(10); //todo find a workaround
                 }
             }
 

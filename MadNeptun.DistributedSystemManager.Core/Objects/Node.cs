@@ -91,6 +91,11 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             TriggerNodeMessage("Init performed " + _id.Id + ".");
             SendMessage(_algorithm.Init(initMessage, _neighbors));    
         }
+
+        public override string ToString()
+        {
+            return "Node Id: " + _id.Id;
+        }
         
     }
 }
