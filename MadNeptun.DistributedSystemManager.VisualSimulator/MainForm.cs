@@ -171,6 +171,8 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             if (rbCustomNetwork.Checked)
             {
                 LoadCustomNetworkToNodePicker();
+                Objects = ObjectsEditCache;
+                Connections = ConnectionsEditCache;
                 RedrawPanel(Objects, Connections);
             }
         }
