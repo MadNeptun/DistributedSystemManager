@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -20,6 +21,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
         {
             Polygon = polygon;
             Id = NextId;
+            BgColor = Color.Orange;
         }
 
         public System.Drawing.Point CenterPoint { get; set; }
@@ -30,6 +32,8 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
         {
             return Polygon.Select(p => new System.Drawing.Point(CenterPoint.X + p.X, CenterPoint.Y + p.Y));
         }
+
+        public System.Drawing.Color BgColor { get; set; }
 
         public abstract string Name();
 

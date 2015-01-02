@@ -10,11 +10,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Collections.ObjectModel;
 namespace MadNeptun.DistributedSystemManager.VisualSimulator
 {
     public partial class MainForm : Form
     {
+        public static ObservableCollection<string> _visitedNodes { get; private set; }
+
         private bool _movingObject = false;
 
         private Drawable _currentlyDraggedItem;
@@ -24,14 +26,25 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         public MainForm()
         {
             InitializeComponent();
+            _visitedNodes = new ObservableCollection<string>();
+            _visitedNodes.CollectionChanged += _visitedNodes_CollectionChanged;
             LoadPredefinedAlgorithm();
-            LoadPredefinedNetworks();
+            LoadPredefinedNetworks();       
             Objects = new List<Drawable>();
             Connections = new List<KeyValuePair<int, int>>();
             ObjectsEditCache = new List<Drawable>();
             ConnectionsEditCache = new List<KeyValuePair<int, int>>();
             LoadDrawableStructureForPredefinedNetworks();
             RedrawPanel(Objects, Connections);
+        }
+
+        void _visitedNodes_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                Objects.First(o => o.Id.ToString() == _visitedNodes.Last()).BgColor = Color.YellowGreen;
+                RedrawPanel(Objects, Connections);
+            }
         }
 
         protected void node_OnNodeMessage(object sender, NodeMessageEventArgs e)
@@ -74,17 +87,29 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 
         private void btnRun_Click(object sender, EventArgs e)
         {
-            BaseNetwork network = rbPredefinedNetwork.Checked ? (BaseNetwork)cbPredefinedNetworks.SelectedItem : _customNetwork;
-            DistributedAlgorithm algorithm = rbFromList.Checked ? (DistributedAlgorithm)cbAlgorithms.SelectedItem : (DistributedAlgorithm)Activator.CreateInstance((Type)((ComboBoxItem)cbClassFromDll.SelectedItem).Value);
-            NodesManager.Instance.Nodes.Clear();
-            NodesManager.Instance.Nodes.AddRange(network.GetNetwork(algorithm, new NetworkSimulator(), node_OnNodeMessage));
-            var message = new MadNeptun.DistributedSystemManager.Core.Objects.Message() { Value = txtMessage.Text };
-            NodesManager.Instance.PerformInit(((Node)cbInitNode.SelectedItem).GetId(), message);
+            try
+            {
+                Objects.ForEach(o => o.BgColor = Color.Orange);
+                _visitedNodes = new ObservableCollection<string>();
+                _visitedNodes.CollectionChanged += _visitedNodes_CollectionChanged;
+                BaseNetwork network = rbPredefinedNetwork.Checked ? (BaseNetwork)cbPredefinedNetworks.SelectedItem : _customNetwork;
+                DistributedAlgorithm algorithm = rbFromList.Checked ? (DistributedAlgorithm)cbAlgorithms.SelectedItem : (DistributedAlgorithm)Activator.CreateInstance((Type)((ComboBoxItem)cbClassFromDll.SelectedItem).Value);
+                NodesManager.Instance.Nodes.Clear();
+                NodesManager.Instance.Nodes.AddRange(network.GetNetwork(algorithm, new NetworkSimulator(), node_OnNodeMessage));
+                var message = new MadNeptun.DistributedSystemManager.Core.Objects.Message() { Value = txtMessage.Text };
+                NodesManager.Instance.PerformInit(((Node)cbInitNode.SelectedItem).GetId(), message);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error has occured. More information: " + ex.ToString());
+            }
         }
 
         private void btnClearLog_Click(object sender, EventArgs e)
         {
             lbLog.Items.Clear();
+            Objects.ForEach(o => o.BgColor = Color.Orange);
+            RedrawPanel(Objects, Connections);
         }
 
         private void btnPickDll_Click(object sender, EventArgs e)
@@ -218,7 +243,27 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         {
             var start = objects.First(d => d.Id == s).CenterPoint;
             var end = objects.First(d => d.Id == e).CenterPoint;
-            displayPanel.CreateGraphics().DrawLine(p, start, end);
+            var g = displayPanel.CreateGraphics();
+            g.DrawLine(p, start, end);
+
+            double stepX = ((double)(start.X - end.X)) / 16;
+            double stepY = ((double)(start.Y - end.Y)) / 16;
+            
+            var tip = new Point((int)(end.X+4*stepX),(int)(end.Y+4*stepY));
+            int edgX = 0;
+            int edgY = 0;
+
+            if (start.X < end.X)
+                edgX = -3;
+            else if (start.X > end.X)
+                edgX = 3;
+
+            if (start.Y < end.Y)
+                edgY = -3;
+            else if (start.Y > end.Y)
+                edgY = 3;
+
+            g.FillRectangle(p.Brush, tip.X + edgX, tip.Y + edgY, 6, 6);
         }
 
         private KeyValuePair<List<Drawable>,List<KeyValuePair<int,int>>> GetDrawableStructureFromNodes(List<Node> nodes)

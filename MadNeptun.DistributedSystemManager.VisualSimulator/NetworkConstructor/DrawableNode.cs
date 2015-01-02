@@ -25,7 +25,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
         public override void Draw(Graphics g)
         {
             Pen pen = new Pen(Color.Black, 2);
-            Pen pen2 = new Pen(Color.Orange, 2);
+            Pen pen2 = new Pen(BgColor, 2);
             g.DrawPolygon(pen, this.RecalculatePolygon().ToArray());
             g.FillPolygon(pen2.Brush, this.RecalculatePolygon().ToArray());
             g.DrawString(this.Id.ToString(), new Font("Arial", 12), pen.Brush, this.CenterPoint.X-6, this.CenterPoint.Y-10);

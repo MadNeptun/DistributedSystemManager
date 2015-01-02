@@ -73,7 +73,26 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
         {
             var start = lbNodes.Items.Cast<Drawable>().First(d => d.Id == s).CenterPoint;
             var end = lbNodes.Items.Cast<Drawable>().First(d => d.Id == e).CenterPoint;
-            drawingPanel.CreateGraphics().DrawLine(p, start, end);
+            var g = drawingPanel.CreateGraphics();
+            g.DrawLine(p, start, end);
+            double stepX = ((double)(start.X - end.X)) / 16;
+            double stepY = ((double)(start.Y - end.Y)) / 16;
+
+            var tip = new Point((int)(end.X + 4 * stepX), (int)(end.Y + 4 * stepY));
+            int edgX = 0;
+            int edgY = 0;
+
+            if (start.X < end.X)
+                edgX = -3;
+            else if (start.X > end.X)
+                edgX = 3;
+
+            if (start.Y < end.Y)
+                edgY = -3;
+            else if (start.Y > end.Y)
+                edgY = 3;
+
+            g.FillRectangle(p.Brush, tip.X + edgX, tip.Y + edgY, 6, 6);
         }
 
         private void btnRemoveDrawable_Click(object sender, EventArgs e)
