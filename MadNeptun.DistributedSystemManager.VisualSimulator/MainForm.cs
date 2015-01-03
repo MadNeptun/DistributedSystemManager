@@ -42,8 +42,11 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         {
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                Objects.First(o => o.Id.ToString() == _visitedNodes.Last()).BgColor = Color.YellowGreen;
-                RedrawPanel(Objects, Connections);
+                    var p = Int32.Parse(e.NewItems[e.NewItems.Count - 1].ToString());
+                    Drawable d = Objects.FirstOrDefault(o => o.Id == p);
+                    if (d != null)
+                        d.BgColor = Color.YellowGreen;
+                    RedrawPanel(Objects, Connections);
             }
         }
 
@@ -97,6 +100,8 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                 NodesManager.Instance.Nodes.Clear();
                 NodesManager.Instance.Nodes.AddRange(network.GetNetwork(algorithm, new NetworkSimulator(), node_OnNodeMessage));
                 var message = new MadNeptun.DistributedSystemManager.Core.Objects.Message() { Value = txtMessage.Text };
+                Objects.First(o => o.Id.ToString() == ((Node)cbInitNode.SelectedItem).GetId().Id).BgColor = Color.Green;
+                RedrawPanel(Objects, Connections);
                 NodesManager.Instance.PerformInit(((Node)cbInitNode.SelectedItem).GetId(), message);
             }
             catch(Exception ex)

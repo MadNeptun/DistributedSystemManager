@@ -10,18 +10,16 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 {
     class NetworkSimulator : NetworkComponent
     {
-        public NetworkSimulator()
-        {}
-
         public override void Send(Message message, List<NodeId> recievers, NodeId sender)
         {
             var data = NodesManager.Instance.Nodes.
                 Where(n => recievers.Select(s => s.Id).Contains(n.GetId().Id)).ToList();
             if (data.Count() > 0)
             {
-                Thread.Sleep(500);
                 foreach (var node in data)
                 {
+                    Random r = new Random();     
+                    Thread.Sleep(r.Next(300, 2000));
                     MainForm._visitedNodes.Add(node.GetId().Id);
                     Thread t = new Thread(Act);
                     t.Start(new List<object>() { node.GetNetworkComponent(), sender, message });
@@ -32,8 +30,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         }
 
         private static void Act(object args)
-        {
-            Thread.Sleep(500);
+        {        
             var data = (List<object>)args;
             ((NetworkComponent)data[0]).Recieve((Message)data[2], (NodeId)data[1]);
         }
