@@ -40,8 +40,10 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         {
             var senderColor = MainForm.Objects.First(o => o.Id == Int32.Parse(sender.Id)).BgColor;
             var resultColor = MainForm.Colors.Contains(senderColor) ? Color.FromArgb(Math.Min(255, senderColor.R + 120), Math.Min(255, senderColor.G + 120), Math.Min(255, senderColor.B + 120)) : senderColor;
-
-            MainForm._visitedNodes.Add(new KeyValuePair<int, Color>(Int32.Parse(CurrentNodeId.Id), resultColor));
+            lock (MainForm._visitedNodes)
+            {
+                MainForm._visitedNodes.Add(new KeyValuePair<int, Color>(Int32.Parse(CurrentNodeId.Id), resultColor));
+            }
             this.InformNode(new MessageRecievedEventArgs() { Message = message, NodeId = sender });
         }
     }

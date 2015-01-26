@@ -46,11 +46,17 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             {
                 bool changeColor = false;
                 var p = (KeyValuePair<int,Color>)e.NewItems[e.NewItems.Count - 1];
-                if (_visitedNodes == null || _visitedNodes.Count == 0)
-                    changeColor = true;
-                else
+                lock (_visitedNodes)
                 {
-                    changeColor = _visitedNodes.Take(_visitedNodes.Count-1).Cast<KeyValuePair<int, Color>>().ToList().Where(h => h.Key == p.Key).Count() == 0;
+                        changeColor = true;
+                        for (int i = 0; i < _visitedNodes.Count - 1;i++ )
+                        {
+                            if(_visitedNodes[i] != null)
+                            {
+                                if(((KeyValuePair<int, Color>)_visitedNodes[i]).Key == p.Key)
+                                    changeColor = false;
+                            }
+                        }
                 }
                 if(changeColor)
                 {
