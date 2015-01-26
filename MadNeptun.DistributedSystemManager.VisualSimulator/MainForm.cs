@@ -15,7 +15,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 {
     public partial class MainForm : Form
     {
-        public static ObservableCollection<string> _visitedNodes { get; private set; }
+        public static ObservableCollection<object> _visitedNodes { get; private set; }
 
         private bool _movingObject = false;
 
@@ -26,8 +26,10 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         public MainForm()
         {
             InitializeComponent();
-            _visitedNodes = new ObservableCollection<string>();
+            _visitedNodes = new ObservableCollection<object>();
             _visitedNodes.CollectionChanged += _visitedNodes_CollectionChanged;
+            chlInitNodes.ThreeDCheckBoxes = false;
+            chlInitNodes.CheckOnClick = true;
             LoadPredefinedAlgorithm();
             LoadPredefinedNetworks();       
             Objects = new List<Drawable>();
@@ -42,11 +44,21 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         {
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                    var p = Int32.Parse(e.NewItems[e.NewItems.Count - 1].ToString());
-                    Drawable d = Objects.FirstOrDefault(o => o.Id == p);
+                bool changeColor = false;
+                var p = (KeyValuePair<int,Color>)e.NewItems[e.NewItems.Count - 1];
+                if (_visitedNodes == null || _visitedNodes.Count == 0)
+                    changeColor = true;
+                else
+                {
+                    changeColor = _visitedNodes.Take(_visitedNodes.Count-1).Cast<KeyValuePair<int, Color>>().ToList().Where(h => h.Key == p.Key).Count() == 0;
+                }
+                if(changeColor)
+                {
+                    Drawable d = Objects.FirstOrDefault(o => o.Id == p.Key);
                     if (d != null)
-                        d.BgColor = Color.YellowGreen;
-                    RedrawPanel(Objects, Connections);
+                        d.BgColor = p.Value;   
+                }
+                RedrawPanel(Objects, Connections);
             }
         }
 
@@ -93,21 +105,39 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             try
             {
                 Objects.ForEach(o => o.BgColor = Color.Orange);
-                _visitedNodes = new ObservableCollection<string>();
+                _visitedNodes = new ObservableCollection<object>();
                 _visitedNodes.CollectionChanged += _visitedNodes_CollectionChanged;
                 BaseNetwork network = rbPredefinedNetwork.Checked ? (BaseNetwork)cbPredefinedNetworks.SelectedItem : _customNetwork;
                 DistributedAlgorithm algorithm = rbFromList.Checked ? (DistributedAlgorithm)cbAlgorithms.SelectedItem : (DistributedAlgorithm)Activator.CreateInstance((Type)((ComboBoxItem)cbClassFromDll.SelectedItem).Value);
                 NodesManager.Instance.Nodes.Clear();
                 NodesManager.Instance.Nodes.AddRange(network.GetNetwork(algorithm, new NetworkSimulator(), node_OnNodeMessage));
-                var message = new MadNeptun.DistributedSystemManager.Core.Objects.Message() { Value = txtMessage.Text };
-                Objects.First(o => o.Id.ToString() == ((Node)cbInitNode.SelectedItem).GetId().Id).BgColor = Color.Green;
+                NodesManager.Instance.Nodes.ForEach(n => ((NetworkSimulator)n.GetNetworkComponent()).CurrentNodeId = n.GetId());
+                var messages = txtMessage.Text.Split(';');              
                 RedrawPanel(Objects, Connections);
-                NodesManager.Instance.PerformInit(((Node)cbInitNode.SelectedItem).GetId(), message);
+                for (int i = 0; i < chlInitNodes.CheckedItems.Count; i++ )
+                {
+                    Objects.First(p => p.Id.ToString() == ((Node)chlInitNodes.CheckedItems[i]).GetId().Id).BgColor = Colors[i % 8];
+                    var thread = new System.Threading.Thread(ExecuteInit);
+                    var message = i < messages.Length ? messages[i] : messages[messages.Length - 1];
+                    thread.Start(new List<object>() { i, message, Colors[i % 8] });
+                    //thread.Join(1);
+                }
+                   
+                     
             }
             catch(Exception ex)
             {
                 MessageBox.Show("Error has occured. More information: " + ex.ToString());
             }
+        }
+
+        internal static List<Color> Colors = new List<Color>() { Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Pink, Color.Olive, Color.Gold, Color.Fuchsia };
+
+        private void ExecuteInit(object args)
+        {
+            var arguments = (List<object>)args;
+            MainForm._visitedNodes.Add(new KeyValuePair<int, Color>(Int32.Parse(((Node)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId().Id), (Color)arguments[2]));
+            NodesManager.Instance.PerformInit(((Node)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId(), new MadNeptun.DistributedSystemManager.Core.Objects.Message() { Value = (string)arguments[1] });
         }
 
         private void btnClearLog_Click(object sender, EventArgs e)
@@ -158,7 +188,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             }
         }
 
-        private List<Drawable> Objects { get; set; }
+        internal static List<Drawable> Objects { get; private set; }
 
         private List<KeyValuePair<int, int>> Connections { get; set; }
 
@@ -187,9 +217,9 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         {
             if (rbPredefinedNetwork.Checked)
             {
-                cbInitNode.Items.Clear();
-                cbInitNode.Items.AddRange(ListOfNodesFromNetwork((BaseNetwork)cbPredefinedNetworks.SelectedItem).ToArray());
-                cbInitNode.SelectedIndex = 0;
+                chlInitNodes.Items.Clear();
+                chlInitNodes.Items.AddRange(ListOfNodesFromNetwork((BaseNetwork)cbPredefinedNetworks.SelectedItem).ToArray());
+                chlInitNodes.SetItemChecked(0, true);
                 btnRun.Enabled = true;
                 LoadDrawableStructureForPredefinedNetworks();
                 RedrawPanel(Objects, Connections);
@@ -209,13 +239,13 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 
         private void LoadCustomNetworkToNodePicker()
         {
-            cbInitNode.Items.Clear();
+            chlInitNodes.Items.Clear();
             if (_customNetwork != default(BaseNetwork))
             {
-                cbInitNode.Items.AddRange(ListOfNodesFromNetwork(_customNetwork).ToArray());
-                if (cbInitNode.Items.Count > 0)
+                chlInitNodes.Items.AddRange(ListOfNodesFromNetwork(_customNetwork).ToArray());
+                if (chlInitNodes.Items.Count > 0)
                 {
-                    cbInitNode.SelectedIndex = 0;
+                    chlInitNodes.SetItemChecked(0,true);
                     btnRun.Enabled = true;
                 }
                 else

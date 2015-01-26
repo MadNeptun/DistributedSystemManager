@@ -30,8 +30,9 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.txtMessage = new System.Windows.Forms.TextBox();
-            this.cbInitNode = new System.Windows.Forms.ComboBox();
             this.btnClearLog = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -49,8 +50,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.lbLog = new System.Windows.Forms.ListBox();
             this.displayPanel = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.chlInitNodes = new System.Windows.Forms.CheckedListBox();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -73,33 +73,45 @@
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.chlInitNodes);
             this.panel6.Controls.Add(this.label2);
             this.panel6.Controls.Add(this.label1);
             this.panel6.Controls.Add(this.txtMessage);
-            this.panel6.Controls.Add(this.cbInitNode);
             this.panel6.Controls.Add(this.btnClearLog);
             this.panel6.Controls.Add(this.btnRun);
             this.panel6.Location = new System.Drawing.Point(3, 140);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(308, 62);
+            this.panel6.Size = new System.Drawing.Size(308, 159);
             this.panel6.TabIndex = 9;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 60);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Init message:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(119, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Init node:";
             // 
             // txtMessage
             // 
-            this.txtMessage.Location = new System.Drawing.Point(194, 34);
+            this.txtMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtMessage.Location = new System.Drawing.Point(6, 76);
+            this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(111, 20);
+            this.txtMessage.Size = new System.Drawing.Size(164, 73);
             this.txtMessage.TabIndex = 7;
             this.txtMessage.Text = "1";
-            // 
-            // cbInitNode
-            // 
-            this.cbInitNode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbInitNode.FormattingEnabled = true;
-            this.cbInitNode.Location = new System.Drawing.Point(194, 7);
-            this.cbInitNode.Name = "cbInitNode";
-            this.cbInitNode.Size = new System.Drawing.Size(110, 21);
-            this.cbInitNode.TabIndex = 6;
             // 
             // btnClearLog
             // 
@@ -259,9 +271,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.lbLog);
-            this.panel3.Location = new System.Drawing.Point(3, 208);
+            this.panel3.Location = new System.Drawing.Point(3, 305);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(308, 309);
+            this.panel3.Size = new System.Drawing.Size(308, 212);
             this.panel3.TabIndex = 6;
             // 
             // lbLog
@@ -273,7 +285,7 @@
             this.lbLog.Location = new System.Drawing.Point(0, 3);
             this.lbLog.Name = "lbLog";
             this.lbLog.ScrollAlwaysVisible = true;
-            this.lbLog.Size = new System.Drawing.Size(304, 303);
+            this.lbLog.Size = new System.Drawing.Size(304, 199);
             this.lbLog.TabIndex = 0;
             // 
             // displayPanel
@@ -290,23 +302,15 @@
             this.displayPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseMove);
             this.displayPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseUp);
             // 
-            // label1
+            // chlInitNodes
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(119, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Init node:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(119, 37);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Init message:";
+            this.chlInitNodes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chlInitNodes.FormattingEnabled = true;
+            this.chlInitNodes.Location = new System.Drawing.Point(176, 10);
+            this.chlInitNodes.Name = "chlInitNodes";
+            this.chlInitNodes.Size = new System.Drawing.Size(120, 139);
+            this.chlInitNodes.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -352,9 +356,9 @@
         private System.Windows.Forms.Button btnClearLog;
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.TextBox txtMessage;
-        private System.Windows.Forms.ComboBox cbInitNode;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckedListBox chlInitNodes;
     }
 }
 
