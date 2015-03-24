@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MadNeptun.DistributedSystemManager.Core.Objects
 {
-    public class NodeMessageEventArgs : EventArgs
+    public class NodeMessageEventArgs<TValue> : EventArgs
     {
-        public string Message { get; set; }
+        public TValue Message { get; set; }
     }
 }

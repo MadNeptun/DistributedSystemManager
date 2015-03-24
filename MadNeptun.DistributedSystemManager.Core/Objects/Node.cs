@@ -1,34 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
+
 namespace MadNeptun.DistributedSystemManager.Core.Objects
 {
-    public class Node
+    public class Node<TIdType, TValue>
     {
 
-        public Node(NodeId id, DistributedAlgorithm algorithm, NetworkComponent component)
+        public Node(NodeId<TIdType> id, DistributedAlgorithm<TIdType, TValue> algorithm, NetworkComponent<TIdType, TValue> component)
         {
             _id = id;
             SetAlgorithm(algorithm);
             SetNetworkComponent(component);
-            _neighbors = new List<NodeId>();
+            _neighbors = new List<NodeId<TIdType>>();
         }
 
-        public delegate void NodeMessage(object sender, NodeMessageEventArgs e);
+        public delegate void NodeMessage(object sender, NodeMessageEventArgs<TValue> e);
 
         public event NodeMessage OnNodeMessage;
 
-        private NodeId _id;
+        private readonly NodeId<TIdType> _id;
 
-        private List<NodeId> _neighbors;
+        private readonly List<NodeId<TIdType>> _neighbors;
 
-        private DistributedAlgorithm _algorithm;
+        private DistributedAlgorithm<TIdType, TValue> _algorithm;
 
-        private NetworkComponent _networkComponent;
+        private NetworkComponent<TIdType, TValue> _networkComponent;
 
-        public List<NodeId> Neighbors
+        public List<NodeId<TIdType>> Neighbors
         { get { return _neighbors; } }
 
         private void Subscribe()
@@ -36,59 +34,53 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             _networkComponent.OnMessageRecieved += _networkComponent_OnMessageRecieved;
         }
 
-        private void _networkComponent_OnMessageRecieved(object sender, MessageRecievedEventArgs e)
+        private void _networkComponent_OnMessageRecieved(object sender, MessageRecievedEventArgs<TIdType, TValue> e)
         {
             RecieveMessage(e.Message, e.NodeId);
-        } 
+        }
 
-        private void RecieveMessage(Message message, NodeId sender)
+        private void RecieveMessage(Message<TValue> message, NodeId<TIdType> sender)
         {
-            TriggerNodeMessage("Node " +this._id.Id+" Message '"+message.Value+"' recieved from node " + sender.Id+".");
             SendMessage(_algorithm.RecieveMessage(message, sender, _neighbors));
         }
 
-        private void SendMessage(OperationResult sendData)
+        private void SendMessage(OperationResult<TIdType, TValue> sendData)
         {
             //TriggerNodeMessage(this._id.Id + " Message sent to " + sendData.SendTo.Count + " nodes.");
-            _networkComponent.Send(sendData.Message, sendData.SendTo, this._id);   
+            _networkComponent.Send(sendData.Message, sendData.SendTo, _id);   
         }
 
-        private void TriggerNodeMessage(string message)
+        private void TriggerNodeMessage(TValue message)
         {
             if (OnNodeMessage != null)
             {
-                OnNodeMessage(this, new NodeMessageEventArgs() { Message = message });
+                OnNodeMessage(this, new NodeMessageEventArgs<TValue>() { Message = message });
             }
         }
 
-        public NodeId GetId()
+        public NodeId<TIdType> GetId()
         {
             return _id;
         }
 
-        public void SetAlgorithm(DistributedAlgorithm algorithm, bool silentMode = true)
+        public void SetAlgorithm(DistributedAlgorithm<TIdType, TValue> algorithm, bool silentMode = true)
         {
             _algorithm = algorithm;
-            if(!silentMode)
-                TriggerNodeMessage("Algorithm changed "+_id.Id+".");
         }
 
-        public NetworkComponent GetNetworkComponent()
+        public NetworkComponent<TIdType, TValue> GetNetworkComponent()
         {
             return _networkComponent;
         }
 
-        public void SetNetworkComponent(NetworkComponent component, bool silentMode = true)
+        public void SetNetworkComponent(NetworkComponent<TIdType, TValue> component, bool silentMode = true)
         {
             _networkComponent = component;
             Subscribe();
-            if (!silentMode)
-                TriggerNodeMessage("Network component changed "+_id.Id+".");
         }
 
-        public void ExecuteInit(Message initMessage)
+        public void ExecuteInit(Message<TValue> initMessage)
         {
-            TriggerNodeMessage("Init performed " + _id.Id + ".");
             SendMessage(_algorithm.Init(initMessage, _neighbors));    
         }
 

@@ -1,9 +1,6 @@
-﻿using MadNeptun.DistributedSystemManager.Core.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
+using MadNeptun.DistributedSystemManager.Core.Objects;
 
 namespace MadNeptun.DistributedSystemManager.VisualSimulator
 {
@@ -11,6 +8,6 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
     {
         public abstract string Name();
 
-        public abstract List<Node> GetNetwork(DistributedAlgorithm algorithm, NetworkComponent component, MadNeptun.DistributedSystemManager.Core.Objects.Node.NodeMessage function);
+        public abstract List<Node<string, string>> GetNetwork(DistributedAlgorithm<string, string> algorithm, NetworkComponent<string, string> component, Node<string, string>.NodeMessage function);
     }
 }

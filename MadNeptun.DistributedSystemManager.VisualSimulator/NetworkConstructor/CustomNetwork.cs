@@ -1,16 +1,16 @@
-﻿using MadNeptun.DistributedSystemManager.Core.Objects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
+using MadNeptun.DistributedSystemManager.Core.Objects;
 
 namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
 {
     internal class CustomNetwork : BaseNetwork
     {
-        private List<Drawable> _objs;
+        private readonly List<Drawable> _objs;
 
-        private List<KeyValuePair<int, int>> _conns;
+        private readonly List<KeyValuePair<int, int>> _conns;
 
         public CustomNetwork(List<Drawable> objects, List<KeyValuePair<int,int>> connections)
         {
@@ -23,14 +23,14 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
             return "Custom network";
         }
 
-        public override List<Node> GetNetwork(DistributedAlgorithm algorithm, NetworkComponent component, Node.NodeMessage function)
+        public override List<Node<string, string>> GetNetwork(DistributedAlgorithm<string, string> algorithm, NetworkComponent<string, string> component, Node<string, string>.NodeMessage function)
         {
-            List<Core.Objects.Node> result = new List<Core.Objects.Node>();
+            var result = new List<Node<string, string>>();
 
-            foreach(Drawable obj in _objs)
+            foreach(var obj in _objs)
             {
-                var node = new Node(new Core.Objects.NodeId() { Id = obj.Id.ToString() }, (DistributedAlgorithm)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent)Activator.CreateInstance(component.GetType()));
-                node.Neighbors.AddRange(_conns.Where(d => d.Key == obj.Id).Select(d => new NodeId() { Id = d.Value.ToString() }));
+                var node = new Node<string, string>(new NodeId<string>() { Id = obj.Id.ToString() }, (DistributedAlgorithm<string, string>)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent<string, string>)Activator.CreateInstance(component.GetType()));
+                node.Neighbors.AddRange(_conns.Where(d => d.Key == obj.Id).Select(d => new NodeId<string>() { Id = d.Value.ToString() }));
                 node.OnNodeMessage += function;
                 result.Add(node);
             }

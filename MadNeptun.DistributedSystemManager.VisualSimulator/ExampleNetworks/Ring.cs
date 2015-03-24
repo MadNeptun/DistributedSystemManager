@@ -1,9 +1,7 @@
-﻿using MadNeptun.DistributedSystemManager.Core.Objects;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
+using MadNeptun.DistributedSystemManager.Core.Objects;
 
 namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleNetworks
 {
@@ -14,15 +12,15 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleNetworks
             return "Ring - bidirectional - 7 nodes";
         }
 
-        public override List<Node> GetNetwork(DistributedAlgorithm algorithm, NetworkComponent component, MadNeptun.DistributedSystemManager.Core.Objects.Node.NodeMessage function)
+        public override List<Node<string, string>> GetNetwork(DistributedAlgorithm<string, string> algorithm, NetworkComponent<string, string> component, Node<string, string>.NodeMessage function)
         {
-            var result = new List<Node>();
+            var result = new List<Node<string, string>>();
 
-            for (int i = 1; i < 8; i++)
+            for (var i = 1; i < 8; i++)
             {
-                var tempNode = new Node(new NodeId() { Id = i.ToString() }, (DistributedAlgorithm)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent)Activator.CreateInstance(component.GetType()));
-                tempNode.Neighbors.Add(new NodeId() { Id = i == 7 ? "1" : (i + 1).ToString() });
-                tempNode.Neighbors.Add(new NodeId() { Id = i == 1 ? "7" : (i - 1).ToString() });
+                var tempNode = new Node<string, string>(new NodeId<string>() { Id = i.ToString() }, (DistributedAlgorithm<string, string>)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent<string, string>)Activator.CreateInstance(component.GetType()));
+                tempNode.Neighbors.Add(new NodeId<string>() { Id = i == 7 ? "1" : (i + 1).ToString() });
+                tempNode.Neighbors.Add(new NodeId<string>() { Id = i == 1 ? "7" : (i - 1).ToString() });
                 tempNode.OnNodeMessage += function;
                 result.Add(tempNode);
             }

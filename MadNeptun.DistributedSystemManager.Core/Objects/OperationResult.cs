@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MadNeptun.DistributedSystemManager.Core.Objects
 {
-    public class OperationResult
+    public class OperationResult<TIdType, TValue>
     {
-        public List<NodeId> SendTo { get; set; }
+        public List<NodeId<TIdType>> SendTo { get; set; }
 
-        public Message Message { get; set; }
+        public Message<TValue> Message { get; set; }
     }
 }

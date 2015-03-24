@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
 {
     internal partial class AddConnectionForm : Form
     {
-        public int Start { get; protected set; }
+        public int Start { get; private set; }
 
-        public int End { get; protected set; }
+        public int End { get; private set; }
 
         public AddConnectionForm(IEnumerable<Drawable> drawables)
         {
@@ -23,13 +19,13 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
         private void btnAddConnection_Click(object sender, EventArgs e)
         {
-            DialogResult = System.Windows.Forms.DialogResult.OK;
+            DialogResult = DialogResult.OK;
             Start = ((Drawable)cbStartElement.SelectedItem).Id;
             End = ((Drawable)cbEndElement.SelectedItem).Id;
             this.Close();

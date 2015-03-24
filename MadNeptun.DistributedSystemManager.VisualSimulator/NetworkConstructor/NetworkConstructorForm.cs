@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
@@ -23,7 +20,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
         public NetworkConstructorForm(List<Drawable> objects, List<KeyValuePair<int, int>> connections)
         {
             InitializeComponent();
-            DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
             lbNodes.Items.Clear();
             lbNodes.Items.AddRange(objects.ToArray());
             lbConnections.Items.Clear();
@@ -129,7 +126,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
         {
             using(AddConnectionForm dialog = new AddConnectionForm(lbNodes.Items.Cast<Drawable>()))
             {
-                if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                if(dialog.ShowDialog() == DialogResult.OK)
                 {
                     lbConnections.Items.Add(new KeyValuePair<int, int>(dialog.Start,dialog.End));
                 }
@@ -146,7 +143,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
         {
             Objects = lbNodes.Items.Cast<Drawable>().ToList();
             Connections = lbConnections.Items.Cast<KeyValuePair<int, int>>().ToList();
-            DialogResult = System.Windows.Forms.DialogResult.OK;
+            DialogResult = DialogResult.OK;
             this.Close();
         }
     }

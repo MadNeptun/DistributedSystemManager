@@ -1,11 +1,14 @@
-﻿namespace MadNeptun.DistributedSystemManager.VisualSimulator
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace MadNeptun.DistributedSystemManager.VisualSimulator
 {
     partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -336,29 +339,29 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel displayPanel;
-        private System.Windows.Forms.ComboBox cbClassFromDll;
-        private System.Windows.Forms.ComboBox cbAlgorithms;
-        private System.Windows.Forms.Button btnPickDll;
-        private System.Windows.Forms.RadioButton rbFromList;
-        private System.Windows.Forms.RadioButton rbFromFile;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.ListBox lbLog;
-        private System.Windows.Forms.TextBox txtCustomNetworStatus;
-        private System.Windows.Forms.ComboBox cbPredefinedNetworks;
-        private System.Windows.Forms.RadioButton rbCustomNetwork;
-        private System.Windows.Forms.RadioButton rbPredefinedNetwork;
-        private System.Windows.Forms.Button btnEditCustomNetwork;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Button btnClearLog;
-        private System.Windows.Forms.Button btnRun;
-        private System.Windows.Forms.TextBox txtMessage;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckedListBox chlInitNodes;
+        private Panel panel1;
+        private Panel displayPanel;
+        private ComboBox cbClassFromDll;
+        private ComboBox cbAlgorithms;
+        private Button btnPickDll;
+        private RadioButton rbFromList;
+        private RadioButton rbFromFile;
+        private Panel panel5;
+        private Panel panel4;
+        private Panel panel3;
+        private ListBox lbLog;
+        private TextBox txtCustomNetworStatus;
+        private ComboBox cbPredefinedNetworks;
+        private RadioButton rbCustomNetwork;
+        private RadioButton rbPredefinedNetwork;
+        private Button btnEditCustomNetwork;
+        private Panel panel6;
+        private Button btnClearLog;
+        private Button btnRun;
+        private TextBox txtMessage;
+        private Label label2;
+        private Label label1;
+        private CheckedListBox chlInitNodes;
     }
 }
 

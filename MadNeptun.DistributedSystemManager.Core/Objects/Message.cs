@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MadNeptun.DistributedSystemManager.Core.Objects
+﻿namespace MadNeptun.DistributedSystemManager.Core.Objects
 {
-    public class Message
+    public class Message<TValue>
     {
-        public string Value { get; set; }
+        public TValue Value { get; set; }
     }
 }

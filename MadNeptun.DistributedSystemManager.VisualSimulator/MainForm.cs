@@ -1,23 +1,23 @@
-﻿using MadNeptun.DistributedSystemManager.Core.Objects;
-using MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
-using System.Collections.ObjectModel;
+using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
+using MadNeptun.DistributedSystemManager.Core.Objects;
+using MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms;
+using MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor;
 namespace MadNeptun.DistributedSystemManager.VisualSimulator
 {
     public partial class MainForm : Form
     {
-        public static ObservableCollection<object> _visitedNodes { get; private set; }
+        public static ObservableCollection<object> VisitedNodes { get; private set; }
 
-        private bool _movingObject = false;
+        private bool _movingObject;
 
         private Drawable _currentlyDraggedItem;
 
@@ -26,8 +26,8 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         public MainForm()
         {
             InitializeComponent();
-            _visitedNodes = new ObservableCollection<object>();
-            _visitedNodes.CollectionChanged += _visitedNodes_CollectionChanged;
+            VisitedNodes = new ObservableCollection<object>();
+            VisitedNodes.CollectionChanged += _visitedNodes_CollectionChanged;
             chlInitNodes.ThreeDCheckBoxes = false;
             chlInitNodes.CheckOnClick = true;
             LoadPredefinedAlgorithm();
@@ -40,49 +40,45 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             RedrawPanel(Objects, Connections);
         }
 
-        void _visitedNodes_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        void _visitedNodes_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            if (e.Action != NotifyCollectionChangedAction.Add) return;
+            bool changeColor;
+            var p = (KeyValuePair<int,Color>)e.NewItems[e.NewItems.Count - 1];
+            lock (VisitedNodes)
             {
-                bool changeColor = false;
-                var p = (KeyValuePair<int,Color>)e.NewItems[e.NewItems.Count - 1];
-                lock (_visitedNodes)
+                changeColor = true;
+                for (var i = 0; i < VisitedNodes.Count - 1;i++ )
                 {
-                        changeColor = true;
-                        for (int i = 0; i < _visitedNodes.Count - 1;i++ )
-                        {
-                            if(_visitedNodes[i] != null)
-                            {
-                                if(((KeyValuePair<int, Color>)_visitedNodes[i]).Key == p.Key)
-                                    changeColor = false;
-                            }
-                        }
+                    if (VisitedNodes[i] == null) continue;
+                    if(((KeyValuePair<int, Color>)VisitedNodes[i]).Key == p.Key)
+                        changeColor = false;
                 }
-                if(changeColor)
-                {
-                    Drawable d = Objects.FirstOrDefault(o => o.Id == p.Key);
-                    if (d != null)
-                        d.BgColor = p.Value;   
-                }
-                RedrawPanel(Objects, Connections);
             }
+            if(changeColor)
+            {
+                var d = Objects.FirstOrDefault(o => o.Id == p.Key);
+                if (d != null)
+                    d.BgColor = p.Value;   
+            }
+            RedrawPanel(Objects, Connections);
         }
 
-        protected void node_OnNodeMessage(object sender, NodeMessageEventArgs e)
+        private void node_OnNodeMessage(object sender, NodeMessageEventArgs<string> e)
         {
-            this.Invoke((MethodInvoker)delegate () {
+            Invoke((MethodInvoker)delegate {
                 lbLog.Items.Add(e.Message);
             });
 
         }
 
-        protected void LoadPredefinedAlgorithm()
+        private void LoadPredefinedAlgorithm()
         {
             cbAlgorithms.Items.Clear();
 
-            var algorithclasses = Assembly.GetCallingAssembly().GetTypes().Where(t => t.IsClass && t.BaseType != null && t.BaseType == typeof(DistributedAlgorithm)).ToList();
+            var algorithclasses = Assembly.GetCallingAssembly().GetTypes().Where(t => t.IsClass && t.BaseType != null && t.BaseType == typeof(DistributedAlgorithm<string, string>)).ToList();
 
-            foreach (Type type in algorithclasses)
+            foreach (var type in algorithclasses)
             {
                 cbAlgorithms.Items.Add(Activator.CreateInstance(type));
             }
@@ -91,11 +87,11 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             rbFromList.Checked = true;
         }
 
-        protected void LoadPredefinedNetworks()
+        private void LoadPredefinedNetworks()
         {
             cbPredefinedNetworks.Items.Clear();
 
-            var networkclasses = Assembly.GetCallingAssembly().GetTypes().Where(t => t.IsClass && t.BaseType != null && t.BaseType == typeof(BaseNetwork) && t != typeof(NetworkConstructor.CustomNetwork)).ToList();
+            var networkclasses = Assembly.GetCallingAssembly().GetTypes().Where(t => t.IsClass && t.BaseType != null && t.BaseType == typeof(BaseNetwork) && t != typeof(CustomNetwork)).ToList();
             
             foreach(Type type in networkclasses)
             {
@@ -111,10 +107,10 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             try
             {
                 Objects.ForEach(o => o.BgColor = Color.Orange);
-                _visitedNodes = new ObservableCollection<object>();
-                _visitedNodes.CollectionChanged += _visitedNodes_CollectionChanged;
+                VisitedNodes = new ObservableCollection<object>();
+                VisitedNodes.CollectionChanged += _visitedNodes_CollectionChanged;
                 BaseNetwork network = rbPredefinedNetwork.Checked ? (BaseNetwork)cbPredefinedNetworks.SelectedItem : _customNetwork;
-                DistributedAlgorithm algorithm = rbFromList.Checked ? (DistributedAlgorithm)cbAlgorithms.SelectedItem : (DistributedAlgorithm)Activator.CreateInstance((Type)((ComboBoxItem)cbClassFromDll.SelectedItem).Value);
+                DistributedAlgorithm<string, string> algorithm = rbFromList.Checked ? (DistributedAlgorithm<string, string>)cbAlgorithms.SelectedItem : (DistributedAlgorithm<string, string>)Activator.CreateInstance((Type)((ComboBoxItem)cbClassFromDll.SelectedItem).Value);
                 NodesManager.Instance.Nodes.Clear();
                 NodesManager.Instance.Nodes.AddRange(network.GetNetwork(algorithm, new NetworkSimulator(), node_OnNodeMessage));
                 NodesManager.Instance.Nodes.ForEach(n => ((NetworkSimulator)n.GetNetworkComponent()).CurrentNodeId = n.GetId());
@@ -122,11 +118,10 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                 RedrawPanel(Objects, Connections);
                 for (int i = 0; i < chlInitNodes.CheckedItems.Count; i++ )
                 {
-                    Objects.First(p => p.Id.ToString() == ((Node)chlInitNodes.CheckedItems[i]).GetId().Id).BgColor = Colors[i % 8];
-                    var thread = new System.Threading.Thread(ExecuteInit);
+                    Objects.First(p => p.Id.ToString() == ((Node<string, string>)chlInitNodes.CheckedItems[i]).GetId().Id).BgColor = Colors[i % 8];
+                    var thread = new Thread(ExecuteInit);
                     var message = i < messages.Length ? messages[i] : messages[messages.Length - 1];
                     thread.Start(new List<object>() { i, message, Colors[i % 8] });
-                    //thread.Join(1);
                 }
                    
                      
@@ -137,13 +132,13 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             }
         }
 
-        internal static List<Color> Colors = new List<Color>() { Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Pink, Color.Olive, Color.Gold, Color.Fuchsia };
+        internal static readonly List<Color> Colors = new List<Color>() { Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Pink, Color.Olive, Color.Gold, Color.Fuchsia };
 
         private void ExecuteInit(object args)
         {
             var arguments = (List<object>)args;
-            MainForm._visitedNodes.Add(new KeyValuePair<int, Color>(Int32.Parse(((Node)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId().Id), (Color)arguments[2]));
-            NodesManager.Instance.PerformInit(((Node)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId(), new MadNeptun.DistributedSystemManager.Core.Objects.Message() { Value = (string)arguments[1] });
+            VisitedNodes.Add(new KeyValuePair<int, Color>(Int32.Parse(((Node<string, string>)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId().Id), (Color)arguments[2]));
+            NodesManager.Instance.PerformInit(((Node<string, string>)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId(), new Message<string>() { Value = (string)arguments[1] });
         }
 
         private void btnClearLog_Click(object sender, EventArgs e)
@@ -159,18 +154,18 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             {
                 dialog.Title = "Select assembly file";
                 IEnumerable<Type> validTypes = new List<Type>();
-                if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                if(dialog.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
                         var assembly = Assembly.LoadFrom(dialog.FileName);
-                        validTypes = assembly.GetTypes().Where(c => c.BaseType == typeof(MadNeptun.DistributedSystemManager.Core.Objects.DistributedAlgorithm));
+                        validTypes = assembly.GetTypes().Where(c => c.BaseType == typeof(DistributedAlgorithm<string, string>));
                     }
                     catch(Exception ex)
                     {
                         MessageBox.Show("File you selected is corrupted or incorrect.");
                     }
-                    if (validTypes.Count() == 0)
+                    if (!validTypes.Any())
                         MessageBox.Show("There are no valid types in loaded file.");
                     else
                     {
@@ -204,18 +199,16 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 
         private void btnEditCustomNetwork_Click(object sender, EventArgs e)
         {
-            using (NetworkConstructor.NetworkConstructorForm dialog = new NetworkConstructor.NetworkConstructorForm(ObjectsEditCache, ConnectionsEditCache))
+            using (var dialog = new NetworkConstructorForm(ObjectsEditCache, ConnectionsEditCache))
             {
-                if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    ObjectsEditCache = Objects = dialog.Objects;
-                    ConnectionsEditCache = Connections = dialog.Connections;
-                    _customNetwork = new NetworkConstructor.CustomNetwork(Objects, Connections);
-                    txtCustomNetworStatus.Text = String.Format("Nodes: {0} Edges: {1}", Objects.Count, Connections.Count);
-                    rbCustomNetwork.Checked = true;
-                    LoadCustomNetworkToNodePicker();
-                    RedrawPanel(Objects, Connections);
-                }
+                if (dialog.ShowDialog() != DialogResult.OK) return;
+                ObjectsEditCache = Objects = dialog.Objects;
+                ConnectionsEditCache = Connections = dialog.Connections;
+                _customNetwork = new CustomNetwork(Objects, Connections);
+                txtCustomNetworStatus.Text = String.Format("Nodes: {0} Edges: {1}", Objects.Count, Connections.Count);
+                rbCustomNetwork.Checked = true;
+                LoadCustomNetworkToNodePicker();
+                RedrawPanel(Objects, Connections);
             }
         }
 
@@ -234,13 +227,11 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 
         private void rbCustomNetwork_CheckedChanged(object sender, EventArgs e)
         {
-            if (rbCustomNetwork.Checked)
-            {
-                LoadCustomNetworkToNodePicker();
-                Objects = ObjectsEditCache;
-                Connections = ConnectionsEditCache;
-                RedrawPanel(Objects, Connections);
-            }
+            if (!rbCustomNetwork.Checked) return;
+            LoadCustomNetworkToNodePicker();
+            Objects = ObjectsEditCache;
+            Connections = ConnectionsEditCache;
+            RedrawPanel(Objects, Connections);
         }
 
         private void LoadCustomNetworkToNodePicker()
@@ -266,9 +257,9 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         /// </summary>
         /// <param name="network"></param>
         /// <returns></returns>
-        private List<Node> ListOfNodesFromNetwork(BaseNetwork network)
+        private List<Node<string,string>> ListOfNodesFromNetwork(BaseNetwork network)
         {
-            return network.GetNetwork(new ExampleAlgorithms.Broadcast(), new NetworkSimulator(), node_OnNodeMessage);
+            return network.GetNetwork(new Broadcast(), new NetworkSimulator(), node_OnNodeMessage);
         }
 
         private void RedrawPanel(List<Drawable> objects, List<KeyValuePair<int,int>> connections)
@@ -287,12 +278,12 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             var g = displayPanel.CreateGraphics();
             g.DrawLine(p, start, end);
 
-            double stepX = ((double)(start.X - end.X)) / 16;
-            double stepY = ((double)(start.Y - end.Y)) / 16;
+            var stepX = ((double)(start.X - end.X)) / 16;
+            var stepY = ((double)(start.Y - end.Y)) / 16;
             
             var tip = new Point((int)(end.X+4*stepX),(int)(end.Y+4*stepY));
-            int edgX = 0;
-            int edgY = 0;
+            var edgX = 0;
+            var edgY = 0;
 
             if (start.X < end.X)
                 edgX = -3;
@@ -307,15 +298,15 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             g.FillRectangle(p.Brush, tip.X + edgX, tip.Y + edgY, 6, 6);
         }
 
-        private KeyValuePair<List<Drawable>,List<KeyValuePair<int,int>>> GetDrawableStructureFromNodes(List<Node> nodes)
+        private KeyValuePair<List<Drawable>, List<KeyValuePair<int, int>>> GetDrawableStructureFromNodes(List<Node<string, string>> nodes)
         {
-            List<Drawable> objects = new List<Drawable>();
-            List<KeyValuePair<int, int>> connections = new List<KeyValuePair<int, int>>();
-            Random r = new Random();
+            var objects = new List<Drawable>();
+            var connections = new List<KeyValuePair<int, int>>();
+            var r = new Random();
             
-            for(int i = 1; i < nodes.Count + 1; i++)
+            for(var i = 1; i < nodes.Count + 1; i++)
             {
-                DrawableNode drawableNode = new DrawableNode(new Point(r.Next(60, displayPanel.Width-60), r.Next(60, displayPanel.Height-60)), i);
+                var drawableNode = new DrawableNode(new Point(r.Next(60, displayPanel.Width-60), r.Next(60, displayPanel.Height-60)), i);
                 objects.Add(drawableNode);
                 connections.AddRange(nodes[i-1].Neighbors.Select(n => new KeyValuePair<int, int>(i,nodes.IndexOf(nodes.First(p=>p.GetId().Id == n.Id))+1)).ToArray());
             }
@@ -344,20 +335,16 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 
         private void displayPanel_MouseUp(object sender, MouseEventArgs e)
         {
-            if (_movingObject)
-            {
-                _currentlyDraggedItem = default(Drawable);
-                _movingObject = false;
-            }
+            if (!_movingObject) return;
+            _currentlyDraggedItem = default(Drawable);
+            _movingObject = false;
         }
 
         private void displayPanel_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_movingObject)
-            {
-                _currentlyDraggedItem.CenterPoint = e.Location;
-                RedrawPanel(Objects,Connections);
-            }
+            if (!_movingObject) return;
+            _currentlyDraggedItem.CenterPoint = e.Location;
+            RedrawPanel(Objects,Connections);
         }
 
         private void displayPanel_Paint(object sender, PaintEventArgs e)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 
 namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
 {
@@ -11,35 +10,35 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
         private static int _nextId = 1;
         private static int NextId { get { return _nextId++; } } 
 
-        protected IEnumerable<System.Drawing.Point> Polygon { get; private set; }
+        protected IEnumerable<Point> Polygon { get; private set; }
 
         /// <summary>
         /// Polygon representation in Cartesian (2D) coordinate system as vectors beginning at (0,0) point
         /// </summary>
         /// <param name="polygon"></param>
-        protected Drawable(IEnumerable<System.Drawing.Point> polygon)
+        protected Drawable(IEnumerable<Point> polygon)
         {
             Polygon = polygon;
             Id = NextId;
             BgColor = Color.Orange;
         }
 
-        public System.Drawing.Point CenterPoint { get; set; }
+        public Point CenterPoint { get; set; }
 
         public int Id { get; protected set; }
 
-        protected IEnumerable<System.Drawing.Point> RecalculatePolygon()
+        protected IEnumerable<Point> RecalculatePolygon()
         {
-            return Polygon.Select(p => new System.Drawing.Point(CenterPoint.X + p.X, CenterPoint.Y + p.Y));
+            return Polygon.Select(p => new Point(CenterPoint.X + p.X, CenterPoint.Y + p.Y));
         }
 
-        public System.Drawing.Color BgColor { get; set; }
+        public Color BgColor { get; set; }
 
         public abstract string Name();
 
-        public abstract void Draw(System.Drawing.Graphics g);
+        public abstract void Draw(Graphics g);
 
-        public virtual bool WasHit(System.Drawing.Point p)
+        public virtual bool WasHit(Point p)
         {
             var maxX = Polygon.Max(g => Math.Abs(g.X));
             var maxY = Polygon.Max(g => Math.Abs(g.Y));

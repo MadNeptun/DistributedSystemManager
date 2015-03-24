@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MadNeptun.DistributedSystemManager.Core.Objects
 {
-    public class MessageRecievedEventArgs : EventArgs
+    public class MessageRecievedEventArgs<TIdType, TValue> : EventArgs
     {
-        public Message Message { get; set; }
+        public Message<TValue> Message { get; set; }
 
-        public NodeId NodeId { get; set; }
+        public NodeId<TIdType> NodeId { get; set; }
     }
 }

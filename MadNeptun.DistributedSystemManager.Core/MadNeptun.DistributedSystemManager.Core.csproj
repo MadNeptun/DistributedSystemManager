@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Objects\DistributedAlgorithm.cs" />
+    <Compile Include="AbstractEntities\DistributedAlgorithm.cs" />
     <Compile Include="Objects\MessageRecievedEventArgs.cs" />
     <Compile Include="Objects\Message.cs" />
-    <Compile Include="Objects\NetworkComponent.cs" />
+    <Compile Include="AbstractEntities\NetworkComponent.cs" />
     <Compile Include="Objects\Node.cs" />
     <Compile Include="Objects\NodeId.cs" />
     <Compile Include="Objects\NodeMessageEventArgs.cs" />
