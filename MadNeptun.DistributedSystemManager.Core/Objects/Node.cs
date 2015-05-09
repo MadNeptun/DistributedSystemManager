@@ -49,7 +49,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             lock (_lockObject)
             {
                 if (!_algorithms.ContainsKey(message.ExecutionId))
-                    _algorithms.Add(new Guid(),
+                    _algorithms.Add(message.ExecutionId,
                         (DistributedAlgorithm<TIdType, TValue>) Activator.CreateInstance(_algorithmTemplate.GetType()));
             }
             SendMessage(_algorithms[message.ExecutionId].RecieveMessage(message, sender, _neighbors));
@@ -92,7 +92,9 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         public void ExecuteInit(Message<TValue> initMessage)
         {
-            _algorithms.Add(new Guid(), (DistributedAlgorithm<TIdType,TValue>)Activator.CreateInstance(_algorithmTemplate.GetType()));
+            var guid = Guid.NewGuid();
+            initMessage.ExecutionId = guid;
+            _algorithms.Add(guid, (DistributedAlgorithm<TIdType,TValue>)Activator.CreateInstance(_algorithmTemplate.GetType()));
             SendMessage(_algorithms[initMessage.ExecutionId].Init(initMessage, _neighbors));    
         }
 
