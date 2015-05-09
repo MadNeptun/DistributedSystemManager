@@ -63,7 +63,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             return _id;
         }
 
-        public void SetAlgorithm(DistributedAlgorithm<TIdType, TValue> algorithm, bool silentMode = true)
+        private void SetAlgorithm(DistributedAlgorithm<TIdType, TValue> algorithm)
         {
             _algorithm = algorithm;
         }
@@ -73,7 +73,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             return _networkComponent;
         }
 
-        public void SetNetworkComponent(NetworkComponent<TIdType, TValue> component, bool silentMode = true)
+        private void SetNetworkComponent(NetworkComponent<TIdType, TValue> component)
         {
             _networkComponent = component;
             Subscribe();

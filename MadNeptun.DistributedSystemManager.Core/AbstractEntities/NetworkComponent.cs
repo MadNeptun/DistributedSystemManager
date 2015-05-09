@@ -5,6 +5,10 @@ namespace MadNeptun.DistributedSystemManager.Core.AbstractEntities
 {
     public abstract class NetworkComponent<TIdType, TValue>
     {
+        public abstract void Run(string configuration);
+
+        public abstract void ShutDown();
+
         public abstract void Send(Message<TValue> message, List<NodeId<TIdType>> recievers, NodeId<TIdType> sender);
 
         public delegate void MessageRecieved(object sender, MessageRecievedEventArgs<TIdType, TValue> e);
