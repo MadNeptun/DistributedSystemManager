@@ -21,7 +21,7 @@ namespace MadNeptun.DistributedSystemManager.Service.Manager
             while (true)
             {
                 var line = Console.ReadLine();
-                if(line == null) return;
+                if(line == null) continue;
                 if (line.ToLowerInvariant() == "quit" || line.ToLowerInvariant() == "exit") return;
                 ConfigurationManager.LoadConfiguartion(ParseEntryString(line));
                 RunCommand();
