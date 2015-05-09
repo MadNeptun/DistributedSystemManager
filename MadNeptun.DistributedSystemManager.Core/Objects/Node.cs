@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
 
 namespace MadNeptun.DistributedSystemManager.Core.Objects
@@ -22,7 +23,11 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         private readonly List<NodeId<TIdType>> _neighbors;
 
-        private DistributedAlgorithm<TIdType, TValue> _algorithm;
+        private readonly object _lockObject = new object();
+
+        private DistributedAlgorithm<TIdType, TValue> _algorithmTemplate;
+
+        private readonly Dictionary<Guid, DistributedAlgorithm<TIdType, TValue>> _algorithms = new Dictionary<Guid,DistributedAlgorithm<TIdType,TValue>>();
 
         private NetworkComponent<TIdType, TValue> _networkComponent;
 
@@ -41,12 +46,17 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         private void RecieveMessage(Message<TValue> message, NodeId<TIdType> sender)
         {
-            SendMessage(_algorithm.RecieveMessage(message, sender, _neighbors));
+            lock (_lockObject)
+            {
+                if (!_algorithms.ContainsKey(message.ExecutionId))
+                    _algorithms.Add(new Guid(),
+                        (DistributedAlgorithm<TIdType, TValue>) Activator.CreateInstance(_algorithmTemplate.GetType()));
+            }
+            SendMessage(_algorithms[message.ExecutionId].RecieveMessage(message, sender, _neighbors));
         }
 
         private void SendMessage(OperationResult<TIdType, TValue> sendData)
         {
-            //TriggerNodeMessage(this._id.Id + " Message sent to " + sendData.SendTo.Count + " nodes.");
             _networkComponent.Send(sendData.Message, sendData.SendTo, _id);   
         }
 
@@ -65,7 +75,8 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         private void SetAlgorithm(DistributedAlgorithm<TIdType, TValue> algorithm)
         {
-            _algorithm = algorithm;
+            _algorithmTemplate = algorithm;
+            _algorithms.Clear();
         }
 
         public NetworkComponent<TIdType, TValue> GetNetworkComponent()
@@ -81,7 +92,8 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         public void ExecuteInit(Message<TValue> initMessage)
         {
-            SendMessage(_algorithm.Init(initMessage, _neighbors));    
+            _algorithms.Add(new Guid(), (DistributedAlgorithm<TIdType,TValue>)Activator.CreateInstance(_algorithmTemplate.GetType()));
+            SendMessage(_algorithms[initMessage.ExecutionId].Init(initMessage, _neighbors));    
         }
 
         public override string ToString()
