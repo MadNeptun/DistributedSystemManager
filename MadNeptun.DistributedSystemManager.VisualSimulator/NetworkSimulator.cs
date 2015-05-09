@@ -44,5 +44,15 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             }
             InformNode(new MessageRecievedEventArgs<string, string>() { Message = message, NodeId = sender });
         }
+
+        public override void Run(string configuration)
+        {
+            
+        }
+
+        public override void ShutDown()
+        {
+            
+        }
     }
 }

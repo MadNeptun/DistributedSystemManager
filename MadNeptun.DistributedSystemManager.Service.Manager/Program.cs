@@ -50,7 +50,7 @@ namespace MadNeptun.DistributedSystemManager.Service.Manager
             outcome = outcome.Where(t => t != "").ToList();
             for (int i = 0; i < outcome.Count; i++)
             {
-                outcome[i] = outcome[i].Replace('"', '');
+                outcome[i] = outcome[i].Replace("\"", "");
             }
             return outcome.ToArray();
         }
