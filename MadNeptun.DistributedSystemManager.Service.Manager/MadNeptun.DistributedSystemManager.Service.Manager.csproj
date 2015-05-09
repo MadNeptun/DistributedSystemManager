@@ -46,6 +46,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MadNeptun.DistributedSystemManager.Core\MadNeptun.DistributedSystemManager.Core.csproj">
+      <Project>{52262feb-b759-41be-b94b-97dacdbddfc2}</Project>
+      <Name>MadNeptun.DistributedSystemManager.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

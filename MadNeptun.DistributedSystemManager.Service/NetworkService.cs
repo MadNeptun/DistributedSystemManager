@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.ServiceProcess;
+using MadNeptun.DistributedSystemManager.Core;
 using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
 using MadNeptun.DistributedSystemManager.Core.Objects;
 
@@ -37,9 +38,9 @@ namespace MadNeptun.DistributedSystemManager.Service
 
         protected override void OnCustomCommand(int command)
         {
-            switch (command)
+            switch ((Method)command)
             {
-                case 200:
+                case Method.Init:
                     ExecuteInit(
                         File.ReadAllText(Path.Combine(ConfigurationManager.Instance.ComunicationExchangeFolder,
                             ConfigurationManager.Instance.InitFile)));

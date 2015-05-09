@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractEntities\DistributedAlgorithm.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Objects\MessageRecievedEventArgs.cs" />
     <Compile Include="Objects\Message.cs" />
     <Compile Include="AbstractEntities\NetworkComponent.cs" />

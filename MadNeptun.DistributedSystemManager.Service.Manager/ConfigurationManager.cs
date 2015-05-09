@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MadNeptun.DistributedSystemManager.Core;
 
 namespace MadNeptun.DistributedSystemManager.Service.Manager
 {
@@ -88,13 +89,13 @@ namespace MadNeptun.DistributedSystemManager.Service.Manager
                 case "i":
                 case "interactive":
                 case "user":
-                    return Manager.Mode.Interactive;
+                    return Mode.Interactive;
                 case "r":
                 case "automatic":
                 case "automation":
-                    return Manager.Mode.OneRun;
+                    return Mode.OneRun;
                 default:
-                    return Manager.Mode.Interactive;
+                    return Mode.Interactive;
             }
         }
 
@@ -108,16 +109,5 @@ namespace MadNeptun.DistributedSystemManager.Service.Manager
                     return Method.Init;
             }
         }
-    }
-
-    enum Mode
-    {
-        Interactive,
-        OneRun
-    }
-
-    enum Method
-    {
-        Init = 200
     }
 }
