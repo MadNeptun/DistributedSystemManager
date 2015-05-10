@@ -8,6 +8,7 @@
 
     public enum Method
     {
-        Init = 200
+        Init = 200,
+        ClearUnused = 201
     }
 }

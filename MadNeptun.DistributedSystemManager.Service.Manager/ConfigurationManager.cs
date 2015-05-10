@@ -105,6 +105,8 @@ namespace MadNeptun.DistributedSystemManager.Service.Manager
             {
                 case "init":
                     return Method.Init;
+                case "clear":
+                    return Method.ClearUnused;
                 default:
                     return Method.Init;
             }

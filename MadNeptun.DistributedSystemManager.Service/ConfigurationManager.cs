@@ -68,10 +68,18 @@ namespace MadNeptun.DistributedSystemManager.Service
                                 Instance.InitFile = args[i + 1];
                             }
                             break;
+                        case "-t":
+                            if (i + 1 < args.Length)
+                            {
+                                Instance.ExpireTime = Double.Parse(args[i + 1]);
+                            }
+                            break;
                     }
                 }
             }
         }
+
+        public double ExpireTime { get; private set; }
 
         public string InitFile { get; private set; }
 
