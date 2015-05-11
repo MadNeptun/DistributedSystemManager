@@ -12,15 +12,15 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleNetworks
             return "Ring - bidirectional - 7 nodes";
         }
 
-        public override List<Node<string, string>> GetNetwork(DistributedAlgorithm<string, string> algorithm, NetworkComponent<string, string> component, Node<string, string>.NodeMessage function)
+        public override List<Node<int, string>> GetNetwork(DistributedAlgorithm<int, string> algorithm, NetworkComponent<int, string> component, Node<int, string>.NodeMessage function)
         {
-            var result = new List<Node<string, string>>();
+            var result = new List<Node<int, string>>();
 
             for (var i = 1; i < 8; i++)
             {
-                var tempNode = new Node<string, string>(new NodeId<string>() { Id = i.ToString() }, (DistributedAlgorithm<string, string>)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent<string, string>)Activator.CreateInstance(component.GetType()));
-                tempNode.Neighbors.Add(new NodeId<string>() { Id = i == 7 ? "1" : (i + 1).ToString() });
-                tempNode.Neighbors.Add(new NodeId<string>() { Id = i == 1 ? "7" : (i - 1).ToString() });
+                var tempNode = new Node<int, string>(new NodeId<int>() { Id = i }, (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent<int, string>)Activator.CreateInstance(component.GetType()));
+                tempNode.Neighbors.Add(new NodeId<int>() { Id = i == 7 ? 1 : (i + 1) });
+                tempNode.Neighbors.Add(new NodeId<int>() { Id = i == 1 ? 7 : (i - 1) });
                 tempNode.OnNodeMessage += function;
                 result.Add(tempNode);
             }

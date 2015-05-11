@@ -5,7 +5,7 @@ using MadNeptun.DistributedSystemManager.Core.Objects;
 
 namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
 {
-    class Broadcast : DistributedAlgorithm<string, string>
+    class Broadcast : DistributedAlgorithm<int, string>
     {
         public Broadcast()
         {
@@ -19,20 +19,20 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
 
         private State Status { get; set; }
 
-        public override OperationResult<string, string> Init(Message<string> message, IEnumerable<NodeId<string>> neighbors)
+        public override OperationResult<int, string> Init(Message<string> message, IEnumerable<NodeId<int>> neighbors)
         {
             Status = State.Sent;
-            return new OperationResult<string, string>() { SendTo = neighbors.ToList(), Message = message };
+            return new OperationResult<int, string>() { SendTo = neighbors.ToList(), Message = message };
         }
 
-        public override OperationResult<string, string> RecieveMessage(Message<string> message, NodeId<string> sender, IEnumerable<NodeId<string>> neighbors)
+        public override OperationResult<int, string> RecieveMessage(Message<string> message, NodeId<int> sender, IEnumerable<NodeId<int>> neighbors)
         {
             if (Status == State.Sent)
-                return new OperationResult<string, string>() { SendTo = new List<NodeId<string>>(), Message = message };
+                return new OperationResult<int, string>() { SendTo = new List<NodeId<int>>(), Message = message };
             else
             {
                 Status = State.Sent;
-                return new OperationResult<string, string>() { SendTo = neighbors.Where(n => n.Id != sender.Id).ToList(), Message = message };
+                return new OperationResult<int, string>() { SendTo = neighbors.Where(n => n.Id != sender.Id).ToList(), Message = message };
             }
         }
 

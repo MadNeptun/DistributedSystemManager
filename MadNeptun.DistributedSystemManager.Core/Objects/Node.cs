@@ -17,7 +17,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             _expireTimeInHours = algorithmExpireTimeInHours;
         }
 
-        public delegate void NodeMessage(object sender, NodeMessageEventArgs<TValue> e);
+        public delegate void NodeMessage(object sender, NodeMessageEventArgs<TIdType,TValue> e);
 
         public event NodeMessage OnNodeMessage;
 
@@ -61,6 +61,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
                         (DistributedAlgorithm<TIdType, TValue>) Activator.CreateInstance(_algorithmTemplate.GetType()));
                 }
             }
+            TriggerNodeMessage(message.Value,sender);
             SendMessage(_algorithms[message.ExecutionId].RecieveMessage(message, sender, _neighbors));
         }
 
@@ -69,11 +70,11 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             _networkComponent.Send(sendData.Message, sendData.SendTo, _id);   
         }
 
-        private void TriggerNodeMessage(TValue message)
+        private void TriggerNodeMessage(TValue message, NodeId<TIdType> sender)
         {
             if (OnNodeMessage != null)
             {
-                OnNodeMessage(this, new NodeMessageEventArgs<TValue>() { Message = message });
+                OnNodeMessage(this, new NodeMessageEventArgs<TIdType,TValue>() { Message = message, Sender = sender, Reciever = this._id });
             }
         }
 

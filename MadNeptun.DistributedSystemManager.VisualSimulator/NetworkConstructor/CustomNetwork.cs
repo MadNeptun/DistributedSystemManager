@@ -23,14 +23,14 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
             return "Custom network";
         }
 
-        public override List<Node<string, string>> GetNetwork(DistributedAlgorithm<string, string> algorithm, NetworkComponent<string, string> component, Node<string, string>.NodeMessage function)
+        public override List<Node<int, string>> GetNetwork(DistributedAlgorithm<int, string> algorithm, NetworkComponent<int, string> component, Node<int, string>.NodeMessage function)
         {
-            var result = new List<Node<string, string>>();
+            var result = new List<Node<int, string>>();
 
             foreach(var obj in _objs)
             {
-                var node = new Node<string, string>(new NodeId<string>() { Id = obj.Id.ToString() }, (DistributedAlgorithm<string, string>)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent<string, string>)Activator.CreateInstance(component.GetType()));
-                node.Neighbors.AddRange(_conns.Where(d => d.Key == obj.Id).Select(d => new NodeId<string>() { Id = d.Value.ToString() }));
+                var node = new Node<int, string>(new NodeId<int>() { Id = obj.Id }, (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent<int, string>)Activator.CreateInstance(component.GetType()));
+                node.Neighbors.AddRange(_conns.Where(d => d.Key == obj.Id).Select(d => new NodeId<int>() { Id = d.Value }));
                 node.OnNodeMessage += function;
                 result.Add(node);
             }

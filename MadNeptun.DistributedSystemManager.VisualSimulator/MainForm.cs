@@ -64,10 +64,10 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             RedrawPanel(Objects, Connections);
         }
 
-        private void node_OnNodeMessage(object sender, NodeMessageEventArgs<string> e)
+        private void node_OnNodeMessage(object sender, NodeMessageEventArgs<int,string> e)
         {
             Invoke((MethodInvoker)delegate {
-                lbLog.Items.Add(e.Message);
+                lbLog.Items.Add(e.Sender.Id.ToString()+" > "+e.Reciever.Id.ToString()+" : "+e.Message);
             });
 
         }
@@ -76,7 +76,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         {
             cbAlgorithms.Items.Clear();
 
-            var algorithclasses = Assembly.GetCallingAssembly().GetTypes().Where(t => t.IsClass && t.BaseType != null && t.BaseType == typeof(DistributedAlgorithm<string, string>)).ToList();
+            var algorithclasses = Assembly.GetCallingAssembly().GetTypes().Where(t => t.IsClass && t.BaseType != null && t.BaseType == typeof(DistributedAlgorithm<int, string>)).ToList();
 
             foreach (var type in algorithclasses)
             {
@@ -110,7 +110,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                 VisitedNodes = new ObservableCollection<object>();
                 VisitedNodes.CollectionChanged += _visitedNodes_CollectionChanged;
                 BaseNetwork network = rbPredefinedNetwork.Checked ? (BaseNetwork)cbPredefinedNetworks.SelectedItem : _customNetwork;
-                DistributedAlgorithm<string, string> algorithm = rbFromList.Checked ? (DistributedAlgorithm<string, string>)cbAlgorithms.SelectedItem : (DistributedAlgorithm<string, string>)Activator.CreateInstance((Type)((ComboBoxItem)cbClassFromDll.SelectedItem).Value);
+                DistributedAlgorithm<int, string> algorithm = rbFromList.Checked ? (DistributedAlgorithm<int, string>)cbAlgorithms.SelectedItem : (DistributedAlgorithm<int, string>)Activator.CreateInstance((Type)((ComboBoxItem)cbClassFromDll.SelectedItem).Value);
                 NodesManager.Instance.Nodes.Clear();
                 NodesManager.Instance.Nodes.AddRange(network.GetNetwork(algorithm, new NetworkSimulator(), node_OnNodeMessage));
                 NodesManager.Instance.Nodes.ForEach(n => ((NetworkSimulator)n.GetNetworkComponent()).CurrentNodeId = n.GetId());
@@ -118,7 +118,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                 RedrawPanel(Objects, Connections);
                 for (int i = 0; i < chlInitNodes.CheckedItems.Count; i++ )
                 {
-                    Objects.First(p => p.Id.ToString() == ((Node<string, string>)chlInitNodes.CheckedItems[i]).GetId().Id).BgColor = Colors[i % 8];
+                    Objects.First(p => p.Id == ((Node<int, string>)chlInitNodes.CheckedItems[i]).GetId().Id).BgColor = Colors[i % 8];
                     var thread = new Thread(ExecuteInit);
                     var message = i < messages.Length ? messages[i] : messages[messages.Length - 1];
                     thread.Start(new List<object>() { i, message, Colors[i % 8] });
@@ -137,8 +137,8 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         private void ExecuteInit(object args)
         {
             var arguments = (List<object>)args;
-            VisitedNodes.Add(new KeyValuePair<int, Color>(Int32.Parse(((Node<string, string>)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId().Id), (Color)arguments[2]));
-            NodesManager.Instance.PerformInit(((Node<string, string>)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId(), new Message<string>() { Value = (string)arguments[1] });
+            VisitedNodes.Add(new KeyValuePair<int, Color>(((Node<int, string>)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId().Id, (Color)arguments[2]));
+            NodesManager.Instance.PerformInit(((Node<int, string>)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId(), new Message<string>() { Value = (string)arguments[1] });
         }
 
         private void btnClearLog_Click(object sender, EventArgs e)
@@ -159,7 +159,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                     try
                     {
                         var assembly = Assembly.LoadFrom(dialog.FileName);
-                        validTypes = assembly.GetTypes().Where(c => c.BaseType == typeof(DistributedAlgorithm<string, string>));
+                        validTypes = assembly.GetTypes().Where(c => c.BaseType == typeof(DistributedAlgorithm<int, string>));
                     }
                     catch(Exception ex)
                     {
@@ -257,7 +257,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         /// </summary>
         /// <param name="network"></param>
         /// <returns></returns>
-        private List<Node<string,string>> ListOfNodesFromNetwork(BaseNetwork network)
+        private List<Node<int,string>> ListOfNodesFromNetwork(BaseNetwork network)
         {
             return network.GetNetwork(new Broadcast(), new NetworkSimulator(), node_OnNodeMessage);
         }
@@ -298,7 +298,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             g.FillRectangle(p.Brush, tip.X + edgX, tip.Y + edgY, 6, 6);
         }
 
-        private KeyValuePair<List<Drawable>, List<KeyValuePair<int, int>>> GetDrawableStructureFromNodes(List<Node<string, string>> nodes)
+        private KeyValuePair<List<Drawable>, List<KeyValuePair<int, int>>> GetDrawableStructureFromNodes(List<Node<int, string>> nodes)
         {
             var objects = new List<Drawable>();
             var connections = new List<KeyValuePair<int, int>>();

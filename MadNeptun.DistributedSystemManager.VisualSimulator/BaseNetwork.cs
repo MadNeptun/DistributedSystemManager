@@ -8,6 +8,6 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
     {
         public abstract string Name();
 
-        public abstract List<Node<string, string>> GetNetwork(DistributedAlgorithm<string, string> algorithm, NetworkComponent<string, string> component, Node<string, string>.NodeMessage function);
+        public abstract List<Node<int, string>> GetNetwork(DistributedAlgorithm<int, string> algorithm, NetworkComponent<int, string> component, Node<int, string>.NodeMessage function);
     }
 }

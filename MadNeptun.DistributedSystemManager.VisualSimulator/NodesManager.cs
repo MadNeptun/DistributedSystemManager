@@ -15,14 +15,14 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 
         private NodesManager()
         {
-            _nodes = new List<Node<string,string>>();
+            _nodes = new List<Node<int,string>>();
         }
 
-        private readonly List<Node<string, string>> _nodes;
+        private readonly List<Node<int, string>> _nodes;
 
-        public List<Node<string, string>> Nodes { get { return _nodes; } }
+        public List<Node<int, string>> Nodes { get { return _nodes; } }
 
-        public void PerformInit(NodeId<string> node, Message<string> msg)
+        public void PerformInit(NodeId<int> node, Message<string> msg)
         {
             Nodes.First(n => n.GetId().Id == node.Id).ExecuteInit(msg);
         }
