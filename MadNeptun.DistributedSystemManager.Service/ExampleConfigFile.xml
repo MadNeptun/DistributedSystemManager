@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+  <Neighbour>
+    <Id>1</Id>
+    <Url>http://example.com:9090</Url>
+  </Neighbour>
+</Configuration>

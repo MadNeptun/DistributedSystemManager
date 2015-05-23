@@ -32,6 +32,7 @@ namespace MadNeptun.DistributedSystemManager.Service
                 (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm.MakeGenericType(new[] { typeof(int), typeof(string) })), 
                 (NetworkComponent<int, string>)Activator.CreateInstance(component.MakeGenericType(new[] { typeof(int), typeof(string) })),
                 ConfigurationManager.Instance.ExpireTime);
+            _networkNode.Neighbors.AddRange(ConfigurationManager.Instance.GetNeigborhood());
             _networkNode.GetNetworkComponent().Run(ConfigurationManager.Instance.NetworkComponentConfiguration);
             _backgroundOperationThread = new Thread(BackgroundThreadMethod);
             _backgroundOperationThread.Start();

@@ -9,7 +9,7 @@ namespace MadNeptun.DistributedSystemManager.Core.AbstractEntities
 
         public abstract void ShutDown();
 
-        public abstract void Send(Message<TValue> message, List<NodeId<TIdType>> recievers, NodeId<TIdType> sender);
+        public abstract void Send(List<KeyValuePair<NodeId<TIdType>,Message<TValue>>> data, NodeId<TIdType> sender);
 
         public delegate void MessageRecieved(object sender, MessageRecievedEventArgs<TIdType, TValue> e);
 

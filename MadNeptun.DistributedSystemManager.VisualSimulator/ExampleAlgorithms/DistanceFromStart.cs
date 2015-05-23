@@ -6,7 +6,7 @@ using MadNeptun.DistributedSystemManager.Core.Objects;
 
 namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
 {
-    class DistanceFromStart : DistributedAlgorithm<string,string>
+    class DistanceFromStart : DistributedAlgorithm<int,string>
     {
 
         public DistanceFromStart()
@@ -21,27 +21,27 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
 
         private State Status { get; set; }
 
-        public override OperationResult<string,string> Init(Message<string> message, IEnumerable<NodeId<string>> neighbors)
+        public override OperationResult<int, string> Init(Message<string> message, IEnumerable<NodeId<int>> neighbors, NodeId<int> current)
         {
             Status = State.Sent;
-            var result = new OperationResult<string, string> {Message = message};
-            result.Message.Value = "1";
-            result.SendTo = neighbors.ToList();
+            var result = new OperationResult<int, string>();
+            message.Value = "1";
+            result.SendTo = neighbors.Select( f => new KeyValuePair<NodeId<int>,Message<string>>(f,message)).ToList();
             return result;
         }
 
-        public override OperationResult<string,string> RecieveMessage(Message<string> message, NodeId<string> sender, IEnumerable<NodeId<string>> neighbors)
+        public override OperationResult<int, string> RecieveMessage(Message<string> message, NodeId<int> sender, IEnumerable<NodeId<int>> neighbors, NodeId<int> current)
         {
             if(Status == State.Sent)
             {
-                return new OperationResult<string,string>() { SendTo = new List<NodeId<string>>(), Message = message };
+                return new OperationResult<int, string>() { SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>() };
             }
             else
             {
                 Status = State.Sent;
                 var number = Int32.Parse(message.Value) + 1;
-                var msg = new Message<string>() { Value = number.ToString() };
-                return new OperationResult<string,string>() { SendTo = neighbors.Where(n => n.Id != sender.Id).ToList(), Message = msg };
+                message.Value = number.ToString();
+                return new OperationResult<int, string>() { SendTo = neighbors.Where(n => n.Id != sender.Id).Select(f=> new KeyValuePair<NodeId<int>,Message<string>>(f,message)).ToList() };
             }
         }
 

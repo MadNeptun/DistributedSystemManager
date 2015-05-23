@@ -10,19 +10,15 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
 {
     class NetworkSimulator : NetworkComponent<int, string>
     {
-        public override void Send(Message<string> message, List<NodeId<int>> recievers, NodeId<int> sender)
+        public override void Send(List<KeyValuePair<NodeId<int>, Message<string>>> incomingData, NodeId<int> sender)
         {
-                var data = NodesManager.Instance.Nodes.
-                    Where(n => recievers.Select(s => s.Id).Contains(n.GetId().Id)).ToList();
-                if (data.Any())
+                foreach (var pack in incomingData)
                 {
-                    foreach (var node in data)
-                    {
-                        var r = new Random();
-                        Thread.Sleep(r.Next(300, 2000));
-                        var t = new Thread(Act);
-                        t.Start(new List<object>() { node.GetNetworkComponent(), sender, message });
-                    }
+                    var node = NodesManager.Instance.Nodes.First(n => n.GetId().Id == pack.Key.Id);
+                    var r = new Random();
+                    Thread.Sleep(r.Next(300, 2000));
+                    var t = new Thread(Act);
+                    t.Start(new List<object>() { node.GetNetworkComponent(), sender, pack.Value });
                 }
         }
 

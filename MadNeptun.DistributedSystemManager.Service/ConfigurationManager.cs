@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
+using MadNeptun.DistributedSystemManager.Core.Objects;
 
 namespace MadNeptun.DistributedSystemManager.Service
 {
@@ -12,7 +15,7 @@ namespace MadNeptun.DistributedSystemManager.Service
             
         }
 
-        private static object _lockObject = new object();
+        private static readonly object _lockObject = new object();
 
         private static ConfigurationManager _instance;
 
@@ -74,6 +77,12 @@ namespace MadNeptun.DistributedSystemManager.Service
                                 Instance.ExpireTime = Double.Parse(args[i + 1]);
                             }
                             break;
+                        case "-p":
+                            if (i + 1 < args.Length)
+                            {
+                                Instance.Neigborhood = args[i + 1];
+                            }
+                            break;
                     }
                 }
             }
@@ -94,5 +103,25 @@ namespace MadNeptun.DistributedSystemManager.Service
         public string NetworkComponentConfiguration { get; private set; }
 
         public int NodeId { get; private set; }
+
+        private string Neigborhood { get; set; }
+
+        public List<NodeId<int>> GetNeigborhood()
+        {
+            List<NodeId<int>> list = new List<NodeId<int>>();
+            using (var fileStream = new FileStream(Neigborhood, FileMode.Open))
+            {
+                var serializer = new XmlSerializer(typeof (List<Neighbour>));
+                var data = (List<Neighbour>)serializer.Deserialize(fileStream);
+                foreach (var d in data)
+                {
+                    var t = new NodeId<int>() {Id = d.Id};
+                    t.ConnectionConfiguration.Add("address", d.Address);
+                    t.ConnectionConfiguration.Add("port",d.Port.ToString());
+                    list.Add(t);
+                }
+            }
+            return list;
+        }
     }
 }

@@ -62,12 +62,12 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
                 }
             }
             TriggerNodeMessage(message.Value,sender);
-            SendMessage(_algorithms[message.ExecutionId].RecieveMessage(message, sender, _neighbors));
+            SendMessage(_algorithms[message.ExecutionId].RecieveMessage(message, sender, _neighbors, _id));
         }
 
         private void SendMessage(OperationResult<TIdType, TValue> sendData)
         {
-            _networkComponent.Send(sendData.Message, sendData.SendTo, _id);   
+            _networkComponent.Send(sendData.SendTo, _id);   
         }
 
         private void TriggerNodeMessage(TValue message, NodeId<TIdType> sender)
@@ -123,7 +123,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             initMessage.ExecutionId = guid;
             _algorithmEntryTime.Add(new KeyValuePair<Guid, DateTime>(guid,DateTime.Now));
             _algorithms.Add(guid, (DistributedAlgorithm<TIdType,TValue>)Activator.CreateInstance(_algorithmTemplate.GetType()));
-            SendMessage(_algorithms[initMessage.ExecutionId].Init(initMessage, _neighbors));
+            SendMessage(_algorithms[initMessage.ExecutionId].Init(initMessage, _neighbors, _id));
             ClearExpiredAlgorithms();
         }
 
