@@ -159,11 +159,12 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                     try
                     {
                         var assembly = Assembly.LoadFrom(dialog.FileName);
-                        validTypes = assembly.GetTypes().Where(c => c.BaseType == typeof(DistributedAlgorithm<int, string>));
+                        validTypes = assembly.GetTypes();
+                        validTypes = validTypes.Where(c => c.BaseType == typeof(DistributedAlgorithm<int,string>));
                     }
                     catch(Exception ex)
                     {
-                        MessageBox.Show("File you selected is corrupted or incorrect.");
+                        MessageBox.Show("File you selected is corrupted or incorrect: "+ex.Message);
                     }
                     if (!validTypes.Any())
                         MessageBox.Show("There are no valid types in loaded file.");

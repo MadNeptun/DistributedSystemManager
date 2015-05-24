@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
@@ -25,12 +26,12 @@ namespace MadNeptun.DistributedSystemManager.Service
         {
             ConfigurationManager.LoadConfiguartion(args);
             var assembly = Assembly.LoadFrom(ConfigurationManager.Instance.ImplementationDllPath);
-            var algorithm = assembly.GetType(ConfigurationManager.Instance.AlgorithmClassName);
-            var component = assembly.GetType(ConfigurationManager.Instance.NetworkComponentName);
+            var algorithm = assembly.GetTypes().First(p => p.Name == ConfigurationManager.Instance.AlgorithmClassName);
+            var component = assembly.GetTypes().First(p => p.Name == ConfigurationManager.Instance.NetworkComponentName);
             _networkNode = new Node<int, string>(
                 new NodeId<int>(){ Id = ConfigurationManager.Instance.NodeId }, 
-                (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm.MakeGenericType(new[] { typeof(int), typeof(string) })), 
-                (NetworkComponent<int, string>)Activator.CreateInstance(component.MakeGenericType(new[] { typeof(int), typeof(string) })),
+                (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm), 
+                (NetworkComponent<int, string>)Activator.CreateInstance(component),
                 ConfigurationManager.Instance.ExpireTime);
             _networkNode.Neighbors.AddRange(ConfigurationManager.Instance.GetNeigborhood());
             _networkNode.GetNetworkComponent().Run(ConfigurationManager.Instance.NetworkComponentConfiguration);

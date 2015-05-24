@@ -25,7 +25,8 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         private static void Act(object args)
         {        
             var data = (List<object>)args;
-            ((NetworkComponent<int, string>)data[0]).Recieve((Message<string>)data[2], (NodeId<int>)data[1]);
+            var msg = (Message<string>) data[2];
+            ((NetworkComponent<int, string>)data[0]).Recieve(new Message<string>() { ExecutionId = msg.ExecutionId, Value = msg.Value}, (NodeId<int>)data[1]);
         }
 
         public NodeId<int> CurrentNodeId { private get; set; }

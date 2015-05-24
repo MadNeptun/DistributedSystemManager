@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using MadNeptun.DistributedSystemManager.Core.Objects;
@@ -81,6 +80,12 @@ namespace MadNeptun.DistributedSystemManager.Service
                             if (i + 1 < args.Length)
                             {
                                 Instance.Neigborhood = args[i + 1];
+                            }
+                            break;
+                        case "-w":
+                            if (i + 1 < args.Length)
+                            {
+                                Instance.ComunicationExchangeFolder = args[i + 1];
                             }
                             break;
                     }
