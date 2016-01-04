@@ -1,11 +1,14 @@
-﻿namespace MadNeptun.DistributedSystemManager.Service
+﻿using System.ComponentModel;
+using System.ServiceProcess;
+
+namespace MadNeptun.DistributedSystemManager.Service
 {
     partial class ProjectInstaller
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -51,7 +54,7 @@
 
         #endregion
 
-        private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller1;
-        public System.ServiceProcess.ServiceInstaller serviceInstaller1;
+        private ServiceProcessInstaller serviceProcessInstaller1;
+        public ServiceInstaller serviceInstaller1;
     }
 }

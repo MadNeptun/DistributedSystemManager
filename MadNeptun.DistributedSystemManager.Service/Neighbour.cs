@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MadNeptun.DistributedSystemManager.Service
+﻿namespace MadNeptun.DistributedSystemManager.Service
 {
     public class Neighbour
     {

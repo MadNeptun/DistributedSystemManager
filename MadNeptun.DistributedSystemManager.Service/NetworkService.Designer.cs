@@ -1,11 +1,13 @@
-﻿namespace MadNeptun.DistributedSystemManager.Service
+﻿using System.ComponentModel;
+
+namespace MadNeptun.DistributedSystemManager.Service
 {
     partial class NetworkService
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
