@@ -39,12 +39,12 @@ namespace MadNeptun.ExampleImplementation
                 _state = State.Relay;
                 _sender = 0;
                 _sentMessageCount += neighbors.Count();
-                return new OperationResult<int, string>() { SendTo = neighbors.Select( n=> new KeyValuePair<NodeId<int>,Message<string>>(n,message)).ToList() };
+                return new OperationResult<int, string> { SendTo = neighbors.Select( n=> new KeyValuePair<NodeId<int>,Message<string>>(n,message)).ToList() };
             }
-            return new OperationResult<int, string>() {SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>()};
+            return new OperationResult<int, string> {SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>()};
         }
 
-        public override OperationResult<int, string> RecieveMessage(Message<string> message, NodeId<int> sender, IEnumerable<NodeId<int>> neighbors, NodeId<int> current)
+        public override OperationResult<int, string> ReceiveMessage(Message<string> message, NodeId<int> sender, IEnumerable<NodeId<int>> neighbors, NodeId<int> current)
         {
             if (State.Idle == _state)
             {
@@ -55,7 +55,7 @@ namespace MadNeptun.ExampleImplementation
                 {
                     _state = State.Sent;
                     message.Value = ProduceResult(message.Value,current.Id);
-                    return new OperationResult<int, string>() {SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>() { new KeyValuePair<NodeId<int>, Message<string>>(neighbors.First(),message)}};
+                    return new OperationResult<int, string> {SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>> { new KeyValuePair<NodeId<int>, Message<string>>(neighbors.First(),message)}};
                 }
             }
             else if(State.Relay == _state)
@@ -82,11 +82,11 @@ namespace MadNeptun.ExampleImplementation
                         }
                         result = result.Substring(1);
                         message.Value = result;
-                        return new OperationResult<int, string>() { SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>() { new KeyValuePair<NodeId<int>, Message<string>>(neighbors.First(n=>n.Id == _sender),message)} };
+                        return new OperationResult<int, string> { SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>> { new KeyValuePair<NodeId<int>, Message<string>>(neighbors.First(n=>n.Id == _sender),message)} };
                     }
                 }
             }
-            return new OperationResult<int, string>() { SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>() };
+            return new OperationResult<int, string> { SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>() };
         }
 
         private string ProduceResult(string p, int id)

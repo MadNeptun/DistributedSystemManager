@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MadNeptun.DistributedSystemManager.Service">
-      <HintPath>D:\Repositiories\DistributedSystemManager\MadNeptun.DistributedSystemManager.Service\bin\Debug\MadNeptun.DistributedSystemManager.Service.exe</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +43,12 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MadNeptun.DistributedSystemManager.Service\MadNeptun.DistributedSystemManager.Service.csproj">
+      <Project>{cf7b571d-0509-4eea-a415-8d05349c1ec7}</Project>
+      <Name>MadNeptun.DistributedSystemManager.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

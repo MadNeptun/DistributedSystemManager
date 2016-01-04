@@ -36,11 +36,11 @@
     <AssemblyOriginatorKeyFile>MadNeptun.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MadNeptun.DistributedSystemManager.Core">
-      <HintPath>D:\Repositiories\DistributedSystemManager\MadNeptun.DistributedSystemManager.Core\bin\Debug\MadNeptun.DistributedSystemManager.Core.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,15 +51,59 @@
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
     <Compile Include="HttpConnectionInterface.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\SoapWebservice\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="SocketConnectionInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializableMessage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="MadNeptun.pfx" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\SoapWebservice\HttpComunicationService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MadNeptun.DistributedSystemManager.Core\MadNeptun.DistributedSystemManager.Core.csproj">
+      <Project>{52262feb-b759-41be-b94b-97dacdbddfc2}</Project>
+      <Name>MadNeptun.DistributedSystemManager.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MadNeptun.SoapService\MadNeptun.SoapService.csproj">
+      <Project>{7e912330-76c3-422d-85c1-22e045e2596f}</Project>
+      <Name>MadNeptun.SoapService</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\SoapWebservice\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SoapWebservice\HttpComunicationService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SoapWebservice\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SoapWebservice\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SoapWebservice\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

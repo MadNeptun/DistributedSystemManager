@@ -72,7 +72,7 @@ namespace MadNeptun.DistributedSystemManager.Service
                         case "-t":
                             if (i + 1 < args.Length)
                             {
-                                Instance.ExpireTime = Double.Parse(args[i + 1]);
+                                Instance.BackgroundOperationInterval = Double.Parse(args[i + 1]);
                             }
                             break;
                         case "-p":
@@ -92,7 +92,7 @@ namespace MadNeptun.DistributedSystemManager.Service
             }
         }
 
-        public double ExpireTime { get; private set; }
+        public double BackgroundOperationInterval { get; private set; }
 
         public string InitFile { get; private set; }
 
@@ -119,7 +119,7 @@ namespace MadNeptun.DistributedSystemManager.Service
                 var data = (List<Neighbour>)serializer.Deserialize(fileStream);
                 foreach (var d in data)
                 {
-                    var t = new NodeId<int>() {Id = d.Id};
+                    var t = new NodeId<int> {Id = d.Id};
                     t.ConnectionConfiguration.Add("address", d.Address);
                     t.ConnectionConfiguration.Add("port",d.Port.ToString());
                     list.Add(t);

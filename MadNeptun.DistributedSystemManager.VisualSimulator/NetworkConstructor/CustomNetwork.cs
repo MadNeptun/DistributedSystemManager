@@ -29,8 +29,8 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
 
             foreach(var obj in _objs)
             {
-                var node = new Node<int, string>(new NodeId<int>() { Id = obj.Id }, (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent<int, string>)Activator.CreateInstance(component.GetType()));
-                node.Neighbors.AddRange(_conns.Where(d => d.Key == obj.Id).Select(d => new NodeId<int>() { Id = d.Value }));
+                var node = new Node<int, string>(new NodeId<int> { Id = obj.Id }, (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm.GetType()), (NetworkComponent<int, string>)Activator.CreateInstance(component.GetType()));
+                node.Neighbors.AddRange(_conns.Where(d => d.Key == obj.Id).Select(d => new NodeId<int> { Id = d.Value }));
                 node.OnNodeMessage += function;
                 result.Add(node);
             }

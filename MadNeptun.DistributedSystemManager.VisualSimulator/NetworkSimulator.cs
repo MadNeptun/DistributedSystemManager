@@ -18,7 +18,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                     var r = new Random();
                     Thread.Sleep(r.Next(300, 2000));
                     var t = new Thread(Act);
-                    t.Start(new List<object>() { node.GetNetworkComponent(), sender, pack.Value });
+                    t.Start(new List<object> { node.GetNetworkComponent(), sender, pack.Value });
                 }
         }
 
@@ -26,7 +26,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         {        
             var data = (List<object>)args;
             var msg = (Message<string>) data[2];
-            ((NetworkComponent<int, string>)data[0]).Receive(new Message<string>() { ExecutionId = msg.ExecutionId, Value = msg.Value}, (NodeId<int>)data[1]);
+            ((NetworkComponent<int, string>)data[0]).Receive(new Message<string> {Value = msg.Value}, (NodeId<int>)data[1]);
         }
 
         public NodeId<int> CurrentNodeId { private get; set; }
@@ -39,7 +39,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             {
                 MainForm.VisitedNodes.Add(new KeyValuePair<int, Color>(CurrentNodeId.Id, resultColor));
             }
-            InformNode(new MessageReceivedEventArgs<int, string>() { Message = message, NodeId = sender });
+            InformNode(new MessageReceivedEventArgs<int, string> { Message = message, NodeId = sender });
         }
 
         public override void Run(string configuration)

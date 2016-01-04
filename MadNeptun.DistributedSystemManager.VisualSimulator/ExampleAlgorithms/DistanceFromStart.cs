@@ -34,15 +34,12 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
         {
             if(Status == State.Sent)
             {
-                return new OperationResult<int, string>() { SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>() };
+                return new OperationResult<int, string> { SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>() };
             }
-            else
-            {
-                Status = State.Sent;
-                var number = Int32.Parse(message.Value) + 1;
-                message.Value = number.ToString();
-                return new OperationResult<int, string>() { SendTo = neighbors.Where(n => n.Id != sender.Id).Select(f=> new KeyValuePair<NodeId<int>,Message<string>>(f,message)).ToList() };
-            }
+            Status = State.Sent;
+            var number = Int32.Parse(message.Value) + 1;
+            message.Value = number.ToString();
+            return new OperationResult<int, string> { SendTo = neighbors.Where(n => n.Id != sender.Id).Select(f=> new KeyValuePair<NodeId<int>,Message<string>>(f,message)).ToList() };
         }
 
         public override string ToString()

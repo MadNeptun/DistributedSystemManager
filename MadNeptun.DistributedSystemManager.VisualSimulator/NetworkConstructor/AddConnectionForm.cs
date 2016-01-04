@@ -20,7 +20,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            this.Close();
+            Close();
         }
 
         private void btnAddConnection_Click(object sender, EventArgs e)
@@ -28,7 +28,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
             DialogResult = DialogResult.OK;
             Start = ((Drawable)cbStartElement.SelectedItem).Id;
             End = ((Drawable)cbEndElement.SelectedItem).Id;
-            this.Close();
+            Close();
         }
 
         private void cbStartElement_SelectedIndexChanged(object sender, EventArgs e)

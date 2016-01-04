@@ -68,7 +68,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         private void node_OnNodeMessage(object sender, NodeMessageEventArgs<int,string> e)
         {
             Invoke((MethodInvoker)delegate {
-                lbLog.Items.Add(e.Sender.Id.ToString()+" > "+e.Receiver.Id.ToString()+" : "+e.Message);
+                lbLog.Items.Add(e.Sender.Id+" > "+e.Receiver.Id+" : "+e.Message);
             });
 
         }
@@ -122,24 +122,24 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                     Objects.First(p => p.Id == ((Node<int, string>)chlInitNodes.CheckedItems[i]).GetId().Id).BgColor = Colors[i % 8];
                     var thread = new Thread(ExecuteInit);
                     var message = i < messages.Length ? messages[i] : messages[messages.Length - 1];
-                    thread.Start(new List<object>() { i, message, Colors[i % 8] });
+                    thread.Start(new List<object> { i, message, Colors[i % 8] });
                 }
                    
                      
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error has occured. More information: " + ex.ToString());
+                MessageBox.Show("Error has occured. More information: " + ex);
             }
         }
 
-        internal static readonly List<Color> Colors = new List<Color>() { Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Pink, Color.Olive, Color.Gold, Color.Fuchsia };
+        internal static readonly List<Color> Colors = new List<Color> { Color.Green, Color.Red, Color.Blue, Color.Yellow, Color.Pink, Color.Olive, Color.Gold, Color.Fuchsia };
 
         private void ExecuteInit(object args)
         {
             var arguments = (List<object>)args;
             VisitedNodes.Add(new KeyValuePair<int, Color>(((Node<int, string>)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId().Id, (Color)arguments[2]));
-            NodesManager.Instance.PerformInit(((Node<int, string>)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId(), new Message<string>() { Value = (string)arguments[1] });
+            NodesManager.Instance.PerformInit(((Node<int, string>)chlInitNodes.CheckedItems[(int)arguments[0]]).GetId(), new Message<string> { Value = (string)arguments[1] });
         }
 
         private void btnClearLog_Click(object sender, EventArgs e)
@@ -172,7 +172,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
                     else
                     {
                         cbClassFromDll.Items.Clear();
-                        cbClassFromDll.Items.AddRange(validTypes.Select(t => new ComboBoxItem() { Name = t.Name, Value = t }).ToArray());
+                        cbClassFromDll.Items.AddRange(validTypes.Select(t => new ComboBoxItem { Name = t.Name, Value = t }).ToArray());
                         cbClassFromDll.SelectedIndex = 0;
                         rbFromFile.Checked = true;
                     }

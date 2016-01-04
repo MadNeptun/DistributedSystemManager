@@ -6,7 +6,6 @@ namespace MadNeptun.ExampleImplementation
     public class SerializableMessage
     {
         public string Message;
-        public Guid Identity;
         public int SenderId;
     }
 }

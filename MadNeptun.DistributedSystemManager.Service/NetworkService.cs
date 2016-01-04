@@ -30,13 +30,12 @@ namespace MadNeptun.DistributedSystemManager.Service
             var algorithm = assembly.GetTypes().First(p => p.Name == ConfigurationManager.Instance.AlgorithmClassName);
             var component = assembly.GetTypes().First(p => p.Name == ConfigurationManager.Instance.NetworkComponentName);
             _networkNode = new Node<int, string>(
-                new NodeId<int>(){ Id = ConfigurationManager.Instance.NodeId }, 
+                new NodeId<int> { Id = ConfigurationManager.Instance.NodeId }, 
                 (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm), 
-                (NetworkComponent<int, string>)Activator.CreateInstance(component),
-                ConfigurationManager.Instance.ExpireTime);
+                (NetworkComponent<int, string>)Activator.CreateInstance(component));
             _networkNode.Neighbors.AddRange(ConfigurationManager.Instance.GetNeigborhood());
             _networkNode.GetNetworkComponent().Run(ConfigurationManager.Instance.NetworkComponentConfiguration);
-            _backgroundOperationsTimer = new Timer(delegate(object arg) { BackgroundOperations(); }, null, 0, 30 * 60 * 1000);
+            _backgroundOperationsTimer = new Timer(delegate { BackgroundOperations(); }, null, 0, (int)ConfigurationManager.Instance.BackgroundOperationInterval * 60 * 1000);
 
             if (_serviceHost != null)
                 _serviceHost.Close();
@@ -59,14 +58,7 @@ namespace MadNeptun.DistributedSystemManager.Service
 
         private void BackgroundOperations()
         {
-            _networkNode.ClearExpiredAlgorithms();
+            //put here code that should be executed periodicaly on local node
         }
-
-        private void ExecuteInit(string message)
-        {
-            _networkNode.ExecuteInit(new Message<string>() { Value = message });
-        }
-
-
     }
 }

@@ -9,7 +9,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
     internal partial class NetworkConstructorForm : Form
     {
 
-        private bool _movingObject = false;
+        private bool _movingObject;
 
         Drawable _currentlyDraggedItem;
 
@@ -136,7 +136,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnSaveNetwork_Click(object sender, EventArgs e)
@@ -144,7 +144,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.NetworkConstructor
             Objects = lbNodes.Items.Cast<Drawable>().ToList();
             Connections = lbConnections.Items.Cast<KeyValuePair<int, int>>().ToList();
             DialogResult = DialogResult.OK;
-            this.Close();
+            Close();
         }
     }
 }

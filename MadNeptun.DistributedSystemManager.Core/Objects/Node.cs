@@ -8,13 +8,12 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
     public class Node<TIdType, TValue>
     {
 
-        public Node(NodeId<TIdType> id, DistributedAlgorithm<TIdType, TValue> algorithm, NetworkComponent<TIdType, TValue> component, double algorithmExpireTimeInHours = 1.0)
+        public Node(NodeId<TIdType> id, DistributedAlgorithm<TIdType, TValue> algorithm, NetworkComponent<TIdType, TValue> component)
         {
             _id = id;
             SetAlgorithm(algorithm);
             SetNetworkComponent(component);
             _neighbors = new List<NodeId<TIdType>>();
-            _expireTimeInHours = algorithmExpireTimeInHours;
         }
 
         public delegate void NodeMessage(object sender, NodeMessageEventArgs<TIdType,TValue> e);
@@ -29,11 +28,9 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         private DistributedAlgorithm<TIdType, TValue> _algorithmTemplate;
 
-        private readonly double _expireTimeInHours;
+        private List<KeyValuePair<Guid, DateTime>> _algorithmEntryTime = new List<KeyValuePair<Guid, DateTime>>();
 
-        private List<KeyValuePair<Guid, DateTime>> _algorithmEntryTime = new List<KeyValuePair<Guid, DateTime>>(); 
- 
-        private readonly Dictionary<Guid, DistributedAlgorithm<TIdType, TValue>> _algorithms = new Dictionary<Guid,DistributedAlgorithm<TIdType,TValue>>();
+        private DistributedAlgorithm<TIdType, TValue> _algorithm;
 
         private NetworkComponent<TIdType, TValue> _networkComponent;
 
@@ -52,17 +49,9 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         private void ReceiveMessage(Message<TValue> message, NodeId<TIdType> sender)
         {
-            lock (_lockObject)
-            {
-                if (!_algorithms.ContainsKey(message.ExecutionId))
-                {
-                    _algorithmEntryTime.Add(new KeyValuePair<Guid, DateTime>(message.ExecutionId,DateTime.Now));
-                    _algorithms.Add(message.ExecutionId,
-                        (DistributedAlgorithm<TIdType, TValue>) Activator.CreateInstance(_algorithmTemplate.GetType()));
-                }
-            }
+            
             TriggerNodeMessage(message.Value,sender);
-            SendMessage(_algorithms[message.ExecutionId].ReceiveMessage(message, sender, _neighbors, _id));
+            SendMessage(_algorithm.ReceiveMessage(message, sender, _neighbors, _id));
         }
 
         private void SendMessage(OperationResult<TIdType, TValue> sendData)
@@ -74,7 +63,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
         {
             if (OnNodeMessage != null)
             {
-                OnNodeMessage(this, new NodeMessageEventArgs<TIdType,TValue>() { Message = message, Sender = sender, Receiver = this._id });
+                OnNodeMessage(this, new NodeMessageEventArgs<TIdType,TValue> { Message = message, Sender = sender, Receiver = _id });
             }
         }
 
@@ -86,7 +75,10 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
         private void SetAlgorithm(DistributedAlgorithm<TIdType, TValue> algorithm)
         {
             _algorithmTemplate = algorithm;
-            _algorithms.Clear();
+            lock (_lockObject)
+            {
+                _algorithm = (DistributedAlgorithm<TIdType, TValue>)Activator.CreateInstance(_algorithmTemplate.GetType());
+            }
         }
 
         public NetworkComponent<TIdType, TValue> GetNetworkComponent()
@@ -104,27 +96,16 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
         {
             lock (_lockObject)
             {
-                var list = new List<Guid>();
-                foreach (var entry in _algorithmEntryTime)
-                {
-                    if (entry.Value.AddHours(_expireTimeInHours) < DateTime.Now)
-                    {
-                        list.Add(entry.Key);
-                        _algorithms.Remove(entry.Key);
-                    }
-                }
-                _algorithmEntryTime = _algorithmEntryTime.Where(i => !list.Contains(i.Key)).ToList();
+                _algorithm = (DistributedAlgorithm<TIdType, TValue>)Activator.CreateInstance(_algorithmTemplate.GetType());
             }
         }
 
         public void ExecuteInit(Message<TValue> initMessage)
         {
             var guid = Guid.NewGuid();
-            initMessage.ExecutionId = guid;
             _algorithmEntryTime.Add(new KeyValuePair<Guid, DateTime>(guid,DateTime.Now));
-            _algorithms.Add(guid, (DistributedAlgorithm<TIdType,TValue>)Activator.CreateInstance(_algorithmTemplate.GetType()));
-            SendMessage(_algorithms[initMessage.ExecutionId].Init(initMessage, _neighbors, _id));
-            ClearExpiredAlgorithms();
+            _algorithm = (DistributedAlgorithm<TIdType,TValue>)Activator.CreateInstance(_algorithmTemplate.GetType());
+            SendMessage(_algorithm.Init(initMessage, _neighbors, _id));
         }
 
         public override string ToString()

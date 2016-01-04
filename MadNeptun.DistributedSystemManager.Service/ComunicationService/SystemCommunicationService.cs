@@ -18,7 +18,7 @@ namespace MadNeptun.DistributedSystemManager.Service.ComunicationService
 
         public void Init(string message)
         {
-            _node.ExecuteInit(new Message<string>() { Value = message });
+            _node.ExecuteInit(new Message<string> { Value = message });
         }
 
 

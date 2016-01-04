@@ -40,7 +40,7 @@ namespace MadNeptun.ExampleImplementation
             }
             connectionSocket.Close();
             var r = ParseData(information);
-            Recieve(r.Value, r.Key);
+            Receive(r.Value, r.Key);
         }
 
         private static KeyValuePair<NodeId<int>, Message<string>> ParseData(List<byte> data)
@@ -54,15 +54,14 @@ namespace MadNeptun.ExampleImplementation
                 result = (SerializableMessage)serializer.Deserialize(memoryStream);
             }
             
-            return new KeyValuePair<NodeId<int>, Message<string>>(new NodeId<int>() { Id = result.SenderId }, new Message<string>() {ExecutionId = result.Identity, Value = result.Message});
+            return new KeyValuePair<NodeId<int>, Message<string>>(new NodeId<int> { Id = result.SenderId }, new Message<string> { Value = result.Message});
         }
 
         private static List<byte> ParseData(Message<string> message, NodeId<int> sender)
         {
             byte[] result;
-            var data = new SerializableMessage()
+            var data = new SerializableMessage
             {
-                Identity = message.ExecutionId,
                 Message = message.Value,
                 SenderId = sender.Id
             };         
@@ -75,9 +74,9 @@ namespace MadNeptun.ExampleImplementation
             return result.ToList();
         }
 
-        public override void Recieve(Message<string> message, NodeId<int> sender)
+        public override void Receive(Message<string> message, NodeId<int> sender)
         {
-            InformNode(new MessageRecievedEventArgs<int, string>(){Message = message,NodeId = sender});
+            InformNode(new MessageReceivedEventArgs<int, string> { Message = message, NodeId = sender });
         }
 
         public override void Run(string configuration)
@@ -119,6 +118,5 @@ namespace MadNeptun.ExampleImplementation
             _listenSocket.Shutdown(SocketShutdown.Both);
             _listenSocket.Close();
         }
-
     }
 }
