@@ -2,7 +2,7 @@
 
 namespace MadNeptun.DistributedSystemManager.Core.Objects
 {
-    public class MessageRecievedEventArgs<TIdType, TValue> : EventArgs
+    public class MessageReceivedEventArgs<TIdType, TValue> : EventArgs
     {
         public Message<TValue> Message { get; set; }
 

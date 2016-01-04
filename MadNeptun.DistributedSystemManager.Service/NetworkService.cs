@@ -3,19 +3,23 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
 using MadNeptun.DistributedSystemManager.Core;
 using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
 using MadNeptun.DistributedSystemManager.Core.Objects;
+using MadNeptun.DistributedSystemManager.Service.ComunicationService;
 
 namespace MadNeptun.DistributedSystemManager.Service
 {
     public partial class NetworkService : ServiceBase
     {
-        private Thread _backgroundOperationThread;
+        private Node<int, string> _networkNode;
 
-        private Node<int, string> _networkNode; 
+        private Timer _backgroundOperationsTimer;
+
+        private ServiceHost _serviceHost;
 
         public NetworkService()
         {
@@ -35,48 +39,30 @@ namespace MadNeptun.DistributedSystemManager.Service
                 ConfigurationManager.Instance.ExpireTime);
             _networkNode.Neighbors.AddRange(ConfigurationManager.Instance.GetNeigborhood());
             _networkNode.GetNetworkComponent().Run(ConfigurationManager.Instance.NetworkComponentConfiguration);
-            _backgroundOperationThread = new Thread(BackgroundThreadMethod);
-            _backgroundOperationThread.Start();
-        }
+            _backgroundOperationsTimer = new Timer(delegate(object arg) { BackgroundOperations(); }, null, 0, 30 * 60 * 1000);
 
-        private void BackgroundThreadMethod()
-        {
-            //TODO rewrite to sth more elegant
-            while (true)
-            {
-                Thread.Sleep(30*60*1000);
-                _networkNode.ClearExpiredAlgorithms();
-            }
+            if (_serviceHost != null)
+                _serviceHost.Close();
+
+            _serviceHost = new ServiceHost(typeof(SystemCommunicationService));
+            _serviceHost.Open();
         }
 
         protected override void OnStop()
         {
-            try
+            if (_serviceHost != null)
             {
-                _backgroundOperationThread.Abort();
+                _serviceHost.Close();
+                _serviceHost = null;
             }
-            catch (ThreadAbortException)
-            {
-                //TODO rewrite to sth more elegant
-            }
+            _backgroundOperationsTimer.Dispose();
+            _backgroundOperationsTimer = null;
             _networkNode.GetNetworkComponent().ShutDown();
         }
 
-        protected override void OnCustomCommand(int command)
+        private void BackgroundOperations()
         {
-            switch ((Method)command)
-            {
-                case Method.Init:
-                    ExecuteInit(
-                        File.ReadAllText(Path.Combine(ConfigurationManager.Instance.ComunicationExchangeFolder,
-                            ConfigurationManager.Instance.InitFile)));
-                    break;
-                case Method.ClearUnused:
-                    _networkNode.ClearExpiredAlgorithms();
-                    break;
-                default: base.OnCustomCommand(command);
-                    break;
-            }
+            _networkNode.ClearExpiredAlgorithms();
         }
 
         private void ExecuteInit(string message)

@@ -11,7 +11,7 @@ using MadNeptun.DistributedSystemManager.Core.Objects;
 
 namespace MadNeptun.ExampleImplementation
 {
-    public class ConnectionInterface : NetworkComponent<int,string>
+    public class SocketConnectionInterface : NetworkComponent<int,string>
     {
         private Socket _listenSocket;
 

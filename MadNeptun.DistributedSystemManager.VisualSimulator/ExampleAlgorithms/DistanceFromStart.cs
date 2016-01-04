@@ -30,7 +30,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
             return result;
         }
 
-        public override OperationResult<int, string> RecieveMessage(Message<string> message, NodeId<int> sender, IEnumerable<NodeId<int>> neighbors, NodeId<int> current)
+        public override OperationResult<int, string> ReceiveMessage(Message<string> message, NodeId<int> sender, IEnumerable<NodeId<int>> neighbors, NodeId<int> current)
         {
             if(Status == State.Sent)
             {

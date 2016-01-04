@@ -25,7 +25,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator.ExampleAlgorithms
             return new OperationResult<int, string>() { SendTo = neighbors.Select(f => new KeyValuePair<NodeId<int>,Message<string>>(f, message)).ToList() };
         }
 
-        public override OperationResult<int, string> RecieveMessage(Message<string> message, NodeId<int> sender, IEnumerable<NodeId<int>> neighbors, NodeId<int> current)
+        public override OperationResult<int, string> ReceiveMessage(Message<string> message, NodeId<int> sender, IEnumerable<NodeId<int>> neighbors, NodeId<int> current)
         {
             if (Status == State.Sent)
                 return new OperationResult<int, string>() { SendTo = new List<KeyValuePair<NodeId<int>, Message<string>>>() };

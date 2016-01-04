@@ -11,19 +11,19 @@ namespace MadNeptun.DistributedSystemManager.Core.AbstractEntities
 
         public abstract void Send(List<KeyValuePair<NodeId<TIdType>,Message<TValue>>> data, NodeId<TIdType> sender);
 
-        public delegate void MessageRecieved(object sender, MessageRecievedEventArgs<TIdType, TValue> e);
+        public delegate void MessageReceived(object sender, MessageReceivedEventArgs<TIdType, TValue> e);
 
-        public event MessageRecieved OnMessageRecieved;
+        public event MessageReceived OnMessageReceived;
 
         /// <summary>
         /// Warning! After recieving and formatting data function must call InformNode method in order to relay this message to node.
         /// </summary>
-        public abstract void Recieve(Message<TValue> message, NodeId<TIdType> sender);
+        public abstract void Receive(Message<TValue> message, NodeId<TIdType> sender);
 
-        protected void InformNode(MessageRecievedEventArgs<TIdType, TValue> data)
+        protected void InformNode(MessageReceivedEventArgs<TIdType, TValue> data)
         {
-            if(OnMessageRecieved!=null)
-                OnMessageRecieved(this, data); 
+            if(OnMessageReceived!=null)
+                OnMessageReceived(this, data); 
         }
     }
 }

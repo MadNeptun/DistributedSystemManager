@@ -42,15 +42,15 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         private void Subscribe()
         {
-            _networkComponent.OnMessageRecieved += _networkComponent_OnMessageRecieved;
+            _networkComponent.OnMessageReceived += _networkComponent_OnMessageReceived;
         }
 
-        private void _networkComponent_OnMessageRecieved(object sender, MessageRecievedEventArgs<TIdType, TValue> e)
+        private void _networkComponent_OnMessageReceived(object sender, MessageReceivedEventArgs<TIdType, TValue> e)
         {
-            RecieveMessage(e.Message, e.NodeId);
+            ReceiveMessage(e.Message, e.NodeId);
         }
 
-        private void RecieveMessage(Message<TValue> message, NodeId<TIdType> sender)
+        private void ReceiveMessage(Message<TValue> message, NodeId<TIdType> sender)
         {
             lock (_lockObject)
             {
@@ -62,7 +62,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
                 }
             }
             TriggerNodeMessage(message.Value,sender);
-            SendMessage(_algorithms[message.ExecutionId].RecieveMessage(message, sender, _neighbors, _id));
+            SendMessage(_algorithms[message.ExecutionId].ReceiveMessage(message, sender, _neighbors, _id));
         }
 
         private void SendMessage(OperationResult<TIdType, TValue> sendData)
@@ -74,7 +74,7 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
         {
             if (OnNodeMessage != null)
             {
-                OnNodeMessage(this, new NodeMessageEventArgs<TIdType,TValue>() { Message = message, Sender = sender, Reciever = this._id });
+                OnNodeMessage(this, new NodeMessageEventArgs<TIdType,TValue>() { Message = message, Sender = sender, Receiver = this._id });
             }
         }
 

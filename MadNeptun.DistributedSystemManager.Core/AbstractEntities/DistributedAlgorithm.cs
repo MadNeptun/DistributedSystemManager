@@ -7,6 +7,6 @@ namespace MadNeptun.DistributedSystemManager.Core.AbstractEntities
     {
         public abstract OperationResult<TIdType, TValue> Init(Message<TValue> message, IEnumerable<NodeId<TIdType>> neighbors, NodeId<TIdType> current);
 
-        public abstract OperationResult<TIdType, TValue> RecieveMessage(Message<TValue> message, NodeId<TIdType> sender, IEnumerable<NodeId<TIdType>> neighbors, NodeId<TIdType> current);
+        public abstract OperationResult<TIdType, TValue> ReceiveMessage(Message<TValue> message, NodeId<TIdType> sender, IEnumerable<NodeId<TIdType>> neighbors, NodeId<TIdType> current);
     }
 }

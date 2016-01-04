@@ -67,7 +67,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         private void node_OnNodeMessage(object sender, NodeMessageEventArgs<int,string> e)
         {
             Invoke((MethodInvoker)delegate {
-                lbLog.Items.Add(e.Sender.Id.ToString()+" > "+e.Reciever.Id.ToString()+" : "+e.Message);
+                lbLog.Items.Add(e.Sender.Id.ToString()+" > "+e.Receiver.Id.ToString()+" : "+e.Message);
             });
 
         }

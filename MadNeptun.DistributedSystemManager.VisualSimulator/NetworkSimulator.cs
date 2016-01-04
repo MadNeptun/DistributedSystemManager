@@ -26,12 +26,12 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
         {        
             var data = (List<object>)args;
             var msg = (Message<string>) data[2];
-            ((NetworkComponent<int, string>)data[0]).Recieve(new Message<string>() { ExecutionId = msg.ExecutionId, Value = msg.Value}, (NodeId<int>)data[1]);
+            ((NetworkComponent<int, string>)data[0]).Receive(new Message<string>() { ExecutionId = msg.ExecutionId, Value = msg.Value}, (NodeId<int>)data[1]);
         }
 
         public NodeId<int> CurrentNodeId { private get; set; }
 
-        public override void Recieve(Message<string> message, NodeId<int> sender)
+        public override void Receive(Message<string> message, NodeId<int> sender)
         {
             var senderColor = MainForm.Objects.First(o => o.Id == sender.Id).BgColor;
             var resultColor = MainForm.Colors.Contains(senderColor) ? Color.FromArgb(Math.Min(255, senderColor.R + 120), Math.Min(255, senderColor.G + 120), Math.Min(255, senderColor.B + 120)) : senderColor;
@@ -39,7 +39,7 @@ namespace MadNeptun.DistributedSystemManager.VisualSimulator
             {
                 MainForm.VisitedNodes.Add(new KeyValuePair<int, Color>(CurrentNodeId.Id, resultColor));
             }
-            InformNode(new MessageRecievedEventArgs<int, string>() { Message = message, NodeId = sender });
+            InformNode(new MessageReceivedEventArgs<int, string>() { Message = message, NodeId = sender });
         }
 
         public override void Run(string configuration)

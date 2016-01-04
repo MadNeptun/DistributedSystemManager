@@ -8,6 +8,6 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         public NodeId<TIdType> Sender { get; set; }
 
-        public NodeId<TIdType> Reciever { get; set; }
+        public NodeId<TIdType> Receiver { get; set; }
     }
 }

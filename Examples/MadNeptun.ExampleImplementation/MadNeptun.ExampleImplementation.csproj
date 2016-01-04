@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,12 +50,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
-    <Compile Include="ConnectionInterface.cs" />
+    <Compile Include="HttpConnectionInterface.cs" />
+    <Compile Include="SocketConnectionInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializableMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MadNeptun.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
