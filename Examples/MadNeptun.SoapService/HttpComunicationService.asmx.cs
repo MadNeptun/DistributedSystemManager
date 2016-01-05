@@ -17,7 +17,7 @@ namespace MadNeptun.SoapService
     public class HttpComunicationService : WebService
     {
         private NetworkComponent<int, string> _networkComponent;
-        public void SetupNetworComponent(NetworkComponent<int, string> networkComponent)
+        public void SetupNetworkComponent(NetworkComponent<int, string> networkComponent)
         {
             _networkComponent = networkComponent;
         }

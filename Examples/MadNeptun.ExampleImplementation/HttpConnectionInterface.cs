@@ -21,7 +21,7 @@ namespace MadNeptun.ExampleImplementation
             }
 
             _serviceHost = new ServiceHost(typeof(HttpComunicationService));
-            ((HttpComunicationService)_serviceHost.SingletonInstance).SetupNetworComponent(this);
+            ((HttpComunicationService)_serviceHost.SingletonInstance).SetupNetworkComponent(this);
             //todo setup endpoint configuration
             _serviceHost.Open();
         }
