@@ -39,8 +39,8 @@ namespace MadNeptun.DistributedSystemManager.Service
 
             if (_serviceHost != null)
                 _serviceHost.Close();
-
-            _serviceHost = new ServiceHost(typeof(SystemCommunicationService));
+            
+            _serviceHost = new SCSServiceHost(_networkNode, ConfigurationManager.Instance.SystemServiceUrl);
             _serviceHost.Open();
         }
 

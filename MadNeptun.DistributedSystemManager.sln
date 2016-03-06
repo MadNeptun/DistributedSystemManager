@@ -13,14 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNeptun.DistributedSystem
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{9577FDCE-13EA-4DA8-B56F-8DF6FF27B068}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateConfig", "Examples\CreateConfig\CreateConfig.csproj", "{87B7F05A-AF6E-4AEB-8C64-68AF100F479D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNeptun.ExampleImplementation", "Examples\MadNeptun.ExampleImplementation\MadNeptun.ExampleImplementation.csproj", "{11DFB2E1-DD86-4826-AABB-87CE61F792CE}"
 	ProjectSection(ProjectDependencies) = postProject
-		{7E912330-76C3-422D-85C1-22E045E2596F} = {7E912330-76C3-422D-85C1-22E045E2596F}
+		{D7412CB8-7A74-4CDB-B56F-A77BC837EB60} = {D7412CB8-7A74-4CDB-B56F-A77BC837EB60}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNeptun.SoapService", "Examples\MadNeptun.SoapService\MadNeptun.SoapService.csproj", "{7E912330-76C3-422D-85C1-22E045E2596F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNeptun.SoapService", "Examples\MadNeptun.SoapService\MadNeptun.SoapService.csproj", "{D7412CB8-7A74-4CDB-B56F-A77BC837EB60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,25 +42,20 @@ Global
 		{32BB4FCA-6D89-49F9-9923-0A575968A3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32BB4FCA-6D89-49F9-9923-0A575968A3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32BB4FCA-6D89-49F9-9923-0A575968A3A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87B7F05A-AF6E-4AEB-8C64-68AF100F479D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87B7F05A-AF6E-4AEB-8C64-68AF100F479D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87B7F05A-AF6E-4AEB-8C64-68AF100F479D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87B7F05A-AF6E-4AEB-8C64-68AF100F479D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{11DFB2E1-DD86-4826-AABB-87CE61F792CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{11DFB2E1-DD86-4826-AABB-87CE61F792CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11DFB2E1-DD86-4826-AABB-87CE61F792CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11DFB2E1-DD86-4826-AABB-87CE61F792CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E912330-76C3-422D-85C1-22E045E2596F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E912330-76C3-422D-85C1-22E045E2596F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E912330-76C3-422D-85C1-22E045E2596F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E912330-76C3-422D-85C1-22E045E2596F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7412CB8-7A74-4CDB-B56F-A77BC837EB60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7412CB8-7A74-4CDB-B56F-A77BC837EB60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7412CB8-7A74-4CDB-B56F-A77BC837EB60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7412CB8-7A74-4CDB-B56F-A77BC837EB60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{87B7F05A-AF6E-4AEB-8C64-68AF100F479D} = {9577FDCE-13EA-4DA8-B56F-8DF6FF27B068}
 		{11DFB2E1-DD86-4826-AABB-87CE61F792CE} = {9577FDCE-13EA-4DA8-B56F-8DF6FF27B068}
-		{7E912330-76C3-422D-85C1-22E045E2596F} = {9577FDCE-13EA-4DA8-B56F-8DF6FF27B068}
+		{D7412CB8-7A74-4CDB-B56F-A77BC837EB60} = {9577FDCE-13EA-4DA8-B56F-8DF6FF27B068}
 	EndGlobalSection
 EndGlobal

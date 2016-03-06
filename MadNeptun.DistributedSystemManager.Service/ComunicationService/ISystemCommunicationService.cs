@@ -4,14 +4,14 @@ using MadNeptun.DistributedSystemManager.Core.Objects;
 namespace MadNeptun.DistributedSystemManager.Service.ComunicationService
 {
     [ServiceContract(Namespace = "http://SystemCommunicationService")]
-    interface ISystemCommunicationService<TIdType, TValueType>
+    interface ISystemCommunicationService
     {
         [OperationContract]
-        void Receive(Message<TValueType> message,
-            NodeId<TIdType> sender);
+        void Receive(Message<string> message,
+            NodeId<int> sender);
 
         [OperationContract]
-        void Init(TValueType message);
+        void Init(string message);
 
         [OperationContract]
         void ClearExpiredAlorithms();

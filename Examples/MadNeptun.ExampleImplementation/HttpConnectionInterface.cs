@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
 using MadNeptun.DistributedSystemManager.Core.Objects;
-using MadNeptun.ExampleImplementation.SoapWebservice;
-using MadNeptun.SoapService;
+using MadNeptun.ExampleImplementation.ServiceHostInfrastructure;
 
 namespace MadNeptun.ExampleImplementation
 {
@@ -20,27 +20,19 @@ namespace MadNeptun.ExampleImplementation
                 _serviceHost = null;
             }
 
-            _serviceHost = new ServiceHost(typeof(HttpComunicationService));
-            ((HttpComunicationService)_serviceHost.SingletonInstance).SetupNetworkComponent(this);
-            //todo setup endpoint configuration
+            _serviceHost = new HttpServiceHost(this, configuration);
             _serviceHost.Open();
         }
 
         public override void Send(List<KeyValuePair<NodeId<int>, Message<string>>> data, NodeId<int> sender)
         {
-            foreach (var package in data.
-                Select( 
-                    e => new KeyValuePair<NodeIdOfInt32, MessageOfString> 
-                        (
-                        new NodeIdOfInt32() { Id = e.Key.Id },
-                        new MessageOfString() { Value = e.Value.Value }
-                        )
-                    )
-                )
+
+            foreach (var package in data)
             {
-                var client = new HttpComunicationServiceSoapClient();
-                //todo setup connection data 
-                client.Recieve(package.Value, package.Key);
+                var binding = new BasicHttpBinding();
+                var address = new EndpointAddress(package.Key.ConnectionConfiguration["url"]);
+                var client = new SoapService.SoapComunicationServiceClient(binding, address);
+                client.Recieve(package.Key,package.Value);
                 client.Close();
             }
         }

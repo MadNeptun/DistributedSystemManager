@@ -63,12 +63,6 @@ namespace MadNeptun.DistributedSystemManager.Service
                                 Instance.NodeId = Int32.Parse(args[i + 1]);
                             }
                             break;
-                        case "-f":
-                            if (i + 1 < args.Length)
-                            {
-                                Instance.InitFile = args[i + 1];
-                            }
-                            break;
                         case "-t":
                             if (i + 1 < args.Length)
                             {
@@ -81,10 +75,10 @@ namespace MadNeptun.DistributedSystemManager.Service
                                 Instance.Neigborhood = args[i + 1];
                             }
                             break;
-                        case "-w":
+                        case "-s":
                             if (i + 1 < args.Length)
                             {
-                                Instance.ComunicationExchangeFolder = args[i + 1];
+                                Instance.SystemServiceUrl = args[i + 1];
                             }
                             break;
                     }
@@ -94,10 +88,6 @@ namespace MadNeptun.DistributedSystemManager.Service
 
         public double BackgroundOperationInterval { get; private set; }
 
-        public string InitFile { get; private set; }
-
-        public string ComunicationExchangeFolder { get; private set; }
-
         public string ImplementationDllPath { get; private set; }
 
         public string AlgorithmClassName { get; private set; }
@@ -105,6 +95,8 @@ namespace MadNeptun.DistributedSystemManager.Service
         public string NetworkComponentName { get; private set; }
 
         public string NetworkComponentConfiguration { get; private set; }
+
+        public string SystemServiceUrl { get; private set; }
 
         public int NodeId { get; private set; }
 
