@@ -1,15 +1,16 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MadNeptun.DistributedSystemManager.Service.Manager")]
+[assembly: AssemblyTitle("MadNeptun.DistributedSystemManager.AdministratorPanel")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("MadNeptun.DistributedSystemManager.Service.Manager")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2015")]
+[assembly: AssemblyProduct("MadNeptun.DistributedSystemManager.AdministratorPanel")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b0a8a938-f8a9-4155-9104-6202e09904f5")]
+[assembly: Guid("ae936327-ea1e-40af-b107-e18a0f5fadfa")]
 
 // Version information for an assembly consists of the following four values:
 //
