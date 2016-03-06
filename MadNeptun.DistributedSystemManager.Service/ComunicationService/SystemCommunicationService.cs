@@ -2,7 +2,7 @@
 
 namespace MadNeptun.DistributedSystemManager.Service.ComunicationService
 {
-    class SystemCommunicationService : ISystemCommunicationService// <int, string>
+    class SystemCommunicationService : ISystemCommunicationService
     {
 
         private Node<int, string> _node; 

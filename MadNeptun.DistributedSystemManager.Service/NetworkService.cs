@@ -33,6 +33,7 @@ namespace MadNeptun.DistributedSystemManager.Service
                 new NodeId<int> { Id = ConfigurationManager.Instance.NodeId }, 
                 (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm), 
                 (NetworkComponent<int, string>)Activator.CreateInstance(component));
+            _networkNode.OnNodeMessage += _networkNode_OnNodeMessage;
             _networkNode.Neighbors.AddRange(ConfigurationManager.Instance.GetNeigborhood());
             _networkNode.GetNetworkComponent().Run(ConfigurationManager.Instance.NetworkComponentConfiguration);
             _backgroundOperationsTimer = new Timer(delegate { BackgroundOperations(); }, null, 0, (int)ConfigurationManager.Instance.BackgroundOperationInterval * 60 * 1000);
@@ -42,6 +43,27 @@ namespace MadNeptun.DistributedSystemManager.Service
             
             _serviceHost = new SCSServiceHost(_networkNode, ConfigurationManager.Instance.SystemServiceUrl);
             _serviceHost.Open();
+        }
+
+        void _networkNode_OnNodeMessage(object sender, NodeMessageEventArgs<int, string> e)
+        {
+           TrySendLogToAdministratorPanel(string.Format("Message sent by node: {0} {1}", e.Sender.Id, e.Message));
+        }
+
+        private void TrySendLogToAdministratorPanel(string log)
+        {
+            try
+            {
+                //TODO config log send parameters
+                var binding = new BasicHttpBinding();
+                var address = new EndpointAddress(new Uri(""));
+                var client = new Log.LogServiceClient(binding, address);
+                client.Open();
+                client.RecieveLog(_networkNode.GetId().Id, log);
+                client.Close();
+            }
+                // ReSharper disable once EmptyGeneralCatchClause
+            catch { }
         }
 
         protected override void OnStop()

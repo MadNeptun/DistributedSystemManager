@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="95bf4874-580d-442b-b582-6eca84fee49a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:4715/SystemCommunicationService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="SystemCommunicationService.xsd" MetadataType="Schema" ID="b7e3a8b0-6493-4401-8f8d-682c914be537" SourceId="1" SourceUrl="http://localhost:4715/SystemCommunicationService.svc?xsd=xsd2" />
+    <MetadataFile FileName="SystemCommunicationService1.xsd" MetadataType="Schema" ID="14b97e99-c838-4684-94ee-cec80b0df13c" SourceId="1" SourceUrl="http://localhost:4715/SystemCommunicationService.svc?xsd=xsd3" />
+    <MetadataFile FileName="SystemCommunicationService.wsdl" MetadataType="Wsdl" ID="44b127ac-f938-4c97-b2e5-df3db5d5c6b3" SourceId="1" SourceUrl="http://localhost:4715/SystemCommunicationService.svc?wsdl" />
+    <MetadataFile FileName="SystemCommunicationService.disco" MetadataType="Disco" ID="736ef7dc-d8cd-4eb7-baad-1945b50fe51e" SourceId="1" SourceUrl="http://localhost:4715/SystemCommunicationService.svc?disco" />
+    <MetadataFile FileName="SystemCommunicationService1.wsdl" MetadataType="Wsdl" ID="9d898470-3eb7-4d3b-8e3d-831603ef1d86" SourceId="1" SourceUrl="http://localhost:4715/SystemCommunicationService.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="SystemCommunicationService2.xsd" MetadataType="Schema" ID="9a33fcef-82cd-479d-a40e-41a69126a573" SourceId="1" SourceUrl="http://localhost:4715/SystemCommunicationService.svc?xsd=xsd0" />
+    <MetadataFile FileName="SystemCommunicationService3.xsd" MetadataType="Schema" ID="c25cb0fa-e6c7-4e9b-b2c0-8053badf69b4" SourceId="1" SourceUrl="http://localhost:4715/SystemCommunicationService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
