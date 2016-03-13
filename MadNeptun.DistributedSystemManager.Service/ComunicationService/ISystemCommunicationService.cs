@@ -15,5 +15,17 @@ namespace MadNeptun.DistributedSystemManager.Service.ComunicationService
 
         [OperationContract]
         void ClearExpiredAlorithms();
+
+        [OperationContract]
+        bool Alive();
+
+        [OperationContract]
+        void Reconfigure(string[] configuration);
+
+        [OperationContract]
+        void SaveFileOnNode(string fullPathToSaveFile, byte[] file);
+
+        [OperationContract]
+        string[] GetConfiguration();
     }
 }

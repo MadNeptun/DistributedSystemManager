@@ -25,14 +25,11 @@ namespace MadNeptun.DistributedSystemManager.Service
 
         protected override void OnStart(string[] args)
         {
-            ConfigurationManager.LoadConfiguartion(args);
-            var assembly = Assembly.LoadFrom(ConfigurationManager.Instance.ImplementationDllPath);
-            var algorithm = assembly.GetTypes().First(p => p.Name == ConfigurationManager.Instance.AlgorithmClassName);
-            var component = assembly.GetTypes().First(p => p.Name == ConfigurationManager.Instance.NetworkComponentName);
+            ConfigurationManager.LoadConfiguartion(args);     
             _networkNode = new Node<int, string>(
                 new NodeId<int> { Id = ConfigurationManager.Instance.NodeId }, 
-                (DistributedAlgorithm<int, string>)Activator.CreateInstance(algorithm), 
-                (NetworkComponent<int, string>)Activator.CreateInstance(component));
+                (DistributedAlgorithm<int, string>)Activator.CreateInstance(ConfigurationManager.Instance.GetAlgorithmType()), 
+                (NetworkComponent<int, string>)Activator.CreateInstance(ConfigurationManager.Instance.GetNetworkComponentType()));
             _networkNode.OnNodeMessage += _networkNode_OnNodeMessage;
             _networkNode.Neighbors.AddRange(ConfigurationManager.Instance.GetNeigborhood());
             _networkNode.GetNetworkComponent().Run(ConfigurationManager.Instance.NetworkComponentConfiguration);
@@ -54,9 +51,8 @@ namespace MadNeptun.DistributedSystemManager.Service
         {
             try
             {
-                //TODO config log send parameters
                 var binding = new BasicHttpBinding();
-                var address = new EndpointAddress(new Uri(""));
+                var address = new EndpointAddress(new Uri(ConfigurationManager.Instance.AdministratorUrl));
                 var client = new Log.LogServiceClient(binding, address);
                 client.Open();
                 client.RecieveLog(_networkNode.GetId().Id, log);

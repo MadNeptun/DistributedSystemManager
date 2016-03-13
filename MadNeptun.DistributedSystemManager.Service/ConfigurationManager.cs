@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Xml.Serialization;
 using MadNeptun.DistributedSystemManager.Core.Objects;
 
@@ -27,6 +29,7 @@ namespace MadNeptun.DistributedSystemManager.Service
 
         public static void LoadConfiguartion(string[] args)
         {
+            Instance.RawConfiguration = args;
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i].ToLowerInvariant().StartsWith("-"))
@@ -81,6 +84,12 @@ namespace MadNeptun.DistributedSystemManager.Service
                                 Instance.SystemServiceUrl = args[i + 1];
                             }
                             break;
+                        case "-h":
+                            if (i + 1 < args.Length)
+                            {
+                                Instance.AdministratorUrl = args[i + 1];
+                            }
+                            break;
                     }
                 }
             }
@@ -100,7 +109,9 @@ namespace MadNeptun.DistributedSystemManager.Service
 
         public int NodeId { get; private set; }
 
-        private string Neigborhood { get; set; }
+        public string Neigborhood { get; private set; }
+
+        public string AdministratorUrl { get; private set; }
 
         public List<NodeId<int>> GetNeigborhood()
         {
@@ -119,5 +130,19 @@ namespace MadNeptun.DistributedSystemManager.Service
             }
             return list;
         }
+
+        public Type GetAlgorithmType()
+        {
+            var assembly = Assembly.LoadFrom(ImplementationDllPath);
+            return assembly.GetTypes().First(p => p.Name == AlgorithmClassName);
+        }
+
+        public Type GetNetworkComponentType()
+        {
+            var assembly = Assembly.LoadFrom(ImplementationDllPath);
+            return assembly.GetTypes().First(p => p.Name == NetworkComponentName);
+        }
+
+        public string[] RawConfiguration { get; private set; }
     }
 }
