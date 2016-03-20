@@ -18,13 +18,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:5005/LogService.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:5000/LogService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="LogService.disco" MetadataType="Disco" ID="9f99e16d-d428-43ea-82f3-13bb0e084fac" SourceId="1" SourceUrl="http://localhost:5005/LogService.svc?disco" />
-    <MetadataFile FileName="LogService.xsd" MetadataType="Schema" ID="e616b76b-83f5-4a24-bfd7-c2d71e9223e8" SourceId="1" SourceUrl="http://localhost:5005/LogService.svc?xsd=xsd0" />
-    <MetadataFile FileName="LogService1.xsd" MetadataType="Schema" ID="067a885e-b546-4c68-b8ba-130f9b04093c" SourceId="1" SourceUrl="http://localhost:5005/LogService.svc?xsd=xsd1" />
-    <MetadataFile FileName="LogService.wsdl" MetadataType="Wsdl" ID="75fd0224-beeb-4d4d-8578-42b15136f80e" SourceId="1" SourceUrl="http://localhost:5005/LogService.svc?wsdl" />
+    <MetadataFile FileName="LogService.wsdl" MetadataType="Wsdl" ID="f43d8b94-240b-479c-a32c-16af0f7a0de0" SourceId="1" SourceUrl="http://localhost:5000/LogService.svc?wsdl" />
+    <MetadataFile FileName="LogService.xsd" MetadataType="Schema" ID="092c221f-698d-46d4-9687-bf359472c65e" SourceId="1" SourceUrl="http://localhost:5000/LogService.svc?xsd=xsd1" />
+    <MetadataFile FileName="LogService1.xsd" MetadataType="Schema" ID="0207c864-991c-469a-89c5-1ec96d7283c7" SourceId="1" SourceUrl="http://localhost:5000/LogService.svc?xsd=xsd0" />
+    <MetadataFile FileName="LogService.disco" MetadataType="Disco" ID="38263b24-c48c-42de-b837-8a256d51ffba" SourceId="1" SourceUrl="http://localhost:5000/LogService.svc?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

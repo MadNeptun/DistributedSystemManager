@@ -15,7 +15,7 @@ namespace MadNeptun.ExampleImplementation.SoapService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SoapService.ISoapComunicationService")]
     public interface ISoapComunicationService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISoapComunicationService/Recieve", ReplyAction="http://tempuri.org/ISoapComunicationService/RecieveResponse")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISoapComunicationService/Recieve")]
         void Recieve(MadNeptun.DistributedSystemManager.Core.Objects.NodeId<int> sender, MadNeptun.DistributedSystemManager.Core.Objects.Message<string> message);
     }
     

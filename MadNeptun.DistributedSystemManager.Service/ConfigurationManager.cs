@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
 using MadNeptun.DistributedSystemManager.Core.Objects;
 
 namespace MadNeptun.DistributedSystemManager.Service
@@ -29,6 +30,8 @@ namespace MadNeptun.DistributedSystemManager.Service
 
         public static void LoadConfiguartion(string[] args)
         {
+            if (args.Length == 0)
+                args = ReadFromAppConfig();
             Instance.RawConfiguration = args;
             for (int i = 0; i < args.Length; i++)
             {
@@ -95,6 +98,15 @@ namespace MadNeptun.DistributedSystemManager.Service
             }
         }
 
+        private static string[] ReadFromAppConfig()
+        {
+            var settings = System.Configuration.ConfigurationManager.AppSettings;
+            return
+                settings.AllKeys.Select(e => new[] {e, settings[e]})
+                    .Aggregate(new List<string>(), (acc, next) => acc.Union(next).ToList())
+                    .ToArray();
+        }
+
         public double BackgroundOperationInterval { get; private set; }
 
         public string ImplementationDllPath { get; private set; }
@@ -125,6 +137,7 @@ namespace MadNeptun.DistributedSystemManager.Service
                     var t = new NodeId<int> {Id = d.Id};
                     t.ConnectionConfiguration.Add("address", d.Address);
                     t.ConnectionConfiguration.Add("port",d.Port.ToString());
+                    t.ConnectionConfiguration.Add("url", d.Url);
                     list.Add(t);
                 }
             }

@@ -15,7 +15,7 @@ namespace MadNeptun.DistributedSystemManager.Service.Log {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="Log.ILogService")]
     public interface ILogService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogService/RecieveLog", ReplyAction="http://tempuri.org/ILogService/RecieveLogResponse")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILogService/RecieveLog")]
         void RecieveLog(int senderId, string log);
     }
     

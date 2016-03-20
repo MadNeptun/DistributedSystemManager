@@ -11,13 +11,9 @@
   <wsdl:message name="ISoapComunicationService_Recieve_InputMessage">
     <wsdl:part name="parameters" element="tns:Recieve" />
   </wsdl:message>
-  <wsdl:message name="ISoapComunicationService_Recieve_OutputMessage">
-    <wsdl:part name="parameters" element="tns:RecieveResponse" />
-  </wsdl:message>
   <wsdl:portType name="ISoapComunicationService">
     <wsdl:operation name="Recieve">
       <wsdl:input wsaw:Action="http://tempuri.org/ISoapComunicationService/Recieve" message="tns:ISoapComunicationService_Recieve_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ISoapComunicationService/RecieveResponse" message="tns:ISoapComunicationService_Recieve_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_ISoapComunicationService" type="tns:ISoapComunicationService">
@@ -27,9 +23,6 @@
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="SoapComunicationService">

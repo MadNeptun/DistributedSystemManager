@@ -125,16 +125,30 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://SystemCommunicationService", ConfigurationName="SystemService.ISystemCommunicationService")]
     public interface ISystemCommunicationService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/Receive", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/ReceiveResponse")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://SystemCommunicationService/ISystemCommunicationService/Receive")]
         void Receive(MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService.MessageOfstring message, MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService.NodeIdOfint sender);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/Init", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/InitResponse")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://SystemCommunicationService/ISystemCommunicationService/Init")]
         void Init(string message);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/ClearExpiredAlorith" +
-            "ms", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/ClearExpiredAlorith" +
-            "msResponse")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://SystemCommunicationService/ISystemCommunicationService/ClearExpiredAlorith" +
+            "ms")]
         void ClearExpiredAlorithms();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/Alive", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/AliveResponse")]
+        bool Alive();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/Reconfigure", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/ReconfigureResponse" +
+            "")]
+        void Reconfigure(string[] configuration);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/SaveFileOnNode", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/SaveFileOnNodeRespo" +
+            "nse")]
+        void SaveFileOnNode(string fullPathToSaveFile, byte[] file);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/GetConfiguration", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/GetConfigurationRes" +
+            "ponse")]
+        string[] GetConfiguration();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -174,6 +188,22 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService {
         
         public void ClearExpiredAlorithms() {
             base.Channel.ClearExpiredAlorithms();
+        }
+        
+        public bool Alive() {
+            return base.Channel.Alive();
+        }
+        
+        public void Reconfigure(string[] configuration) {
+            base.Channel.Reconfigure(configuration);
+        }
+        
+        public void SaveFileOnNode(string fullPathToSaveFile, byte[] file) {
+            base.Channel.SaveFileOnNode(fullPathToSaveFile, file);
+        }
+        
+        public string[] GetConfiguration() {
+            return base.Channel.GetConfiguration();
         }
     }
 }

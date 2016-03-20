@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -29,11 +30,18 @@ namespace MadNeptun.ExampleImplementation
 
             foreach (var package in data)
             {
-                var binding = new BasicHttpBinding();
-                var address = new EndpointAddress(package.Key.ConnectionConfiguration["url"]);
-                var client = new SoapService.SoapComunicationServiceClient(binding, address);
-                client.Recieve(package.Key,package.Value);
-                client.Close();
+                try
+                {
+                    var binding = new BasicHttpBinding("BasicHttpBinding_ISoapComunicationService");
+                    var address = new EndpointAddress(package.Key.ConnectionConfiguration["url"]);
+                    var client = new SoapService.SoapComunicationServiceClient(binding, address);
+                    client.Recieve(package.Key,package.Value);
+                    client.Close();
+                }
+                catch (Exception ex)
+                {
+                    EventLogHelper.WriteErrorToEventLog(ex);
+                }
             }
         }
 

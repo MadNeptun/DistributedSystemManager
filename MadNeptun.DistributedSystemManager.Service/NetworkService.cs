@@ -51,15 +51,14 @@ namespace MadNeptun.DistributedSystemManager.Service
         {
             try
             {
-                var binding = new BasicHttpBinding();
-                var address = new EndpointAddress(new Uri(ConfigurationManager.Instance.AdministratorUrl));
-                var client = new Log.LogServiceClient(binding, address);
-                client.Open();
-                client.RecieveLog(_networkNode.GetId().Id, log);
-                client.Close();
+                var adminPanel = new Log.LogServiceClient("BasicHttpBinding_ILogService");
+                adminPanel.RecieveLog(_networkNode.GetId().Id, log);
+                adminPanel.Close();
             }
-                // ReSharper disable once EmptyGeneralCatchClause
-            catch { }
+            catch (Exception ex)
+            {
+               EventLogHelper.WriteErrorToEventLog(ex);
+            }
         }
 
         protected override void OnStop()

@@ -11,7 +11,7 @@ namespace MadNeptun.SoapService
     [ServiceContract]
     public interface ISoapComunicationService
     {
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void Recieve(NodeId<int> sender, Message<string> message);
     }
 

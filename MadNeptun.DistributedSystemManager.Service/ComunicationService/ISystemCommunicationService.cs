@@ -6,14 +6,14 @@ namespace MadNeptun.DistributedSystemManager.Service.ComunicationService
     [ServiceContract(Namespace = "http://SystemCommunicationService")]
     interface ISystemCommunicationService
     {
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void Receive(Message<string> message,
             NodeId<int> sender);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void Init(string message);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void ClearExpiredAlorithms();
 
         [OperationContract]

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 
 namespace MadNeptun.DistributedSystemManager.AdministratorPanel.LogService
 {
@@ -29,7 +30,8 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel.LogService
             if(_collection.Count > 1000)
                 DeallocateLogs(false);
             _collection.Add(new LogEntry(senderId,log));
-            ExecuteEvent();
+            var thread = new Thread(ExecuteEvent);
+            thread.Start();
         }
     
         public void DumpWholeLog()

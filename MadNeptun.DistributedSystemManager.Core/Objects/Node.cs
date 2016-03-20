@@ -105,8 +105,8 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
             var guid = Guid.NewGuid();
             _algorithmEntryTime.Add(new KeyValuePair<Guid, DateTime>(guid,DateTime.Now));
             _algorithm = (DistributedAlgorithm<TIdType,TValue>)Activator.CreateInstance(_algorithmTemplate.GetType());
-            SendMessage(_algorithm.Init(initMessage, _neighbors, _id));
             TriggerNodeMessage(initMessage.Value, _id);
+            SendMessage(_algorithm.Init(initMessage, _neighbors, _id));          
         }
 
         public override string ToString()

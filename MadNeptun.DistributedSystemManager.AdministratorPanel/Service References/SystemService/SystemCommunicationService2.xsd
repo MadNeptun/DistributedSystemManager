@@ -1,39 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://SystemCommunicationService" elementFormDefault="qualified" targetNamespace="http://SystemCommunicationService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:4715/SystemCommunicationService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.Objects" />
-  <xs:element name="Receive">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.Objects" minOccurs="0" name="message" nillable="true" type="q1:MessageOfstring" />
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.Objects" minOccurs="0" name="sender" nillable="true" type="q2:NodeIdOfint" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ReceiveResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="Init">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="InitResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ClearExpiredAlorithms">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ClearExpiredAlorithmsResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.Objects" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.Objects" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:5500/SystemCommunicationService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="MessageOfstring">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="MessageOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.Objects" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MessageOfstring" nillable="true" type="tns:MessageOfstring" />
+  <xs:complexType name="NodeIdOfint">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="NodeIdOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.Objects" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="int" Namespace="http://www.w3.org/2001/XMLSchema" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="ConnectionConfiguration" nillable="true" type="q1:ArrayOfKeyValueOfstringstring" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NodeIdOfint" nillable="true" type="tns:NodeIdOfint" />
 </xs:schema>

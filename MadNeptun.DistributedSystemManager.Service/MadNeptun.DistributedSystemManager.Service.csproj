@@ -54,6 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -68,6 +69,7 @@
     <Compile Include="ComunicationService\SCSServiceHost.cs" />
     <Compile Include="ComunicationService\SystemCommunicationService.cs" />
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="EventLogHelper.cs" />
     <Compile Include="Neighbour.cs" />
     <Compile Include="NetworkService.cs">
       <SubType>Component</SubType>
@@ -121,12 +123,6 @@
     <Content Include="ExampleConfigFile.xml">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Service References\Log\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\Log\configuration.svcinfo" />
-    <None Include="Service References\Log\configuration91.svcinfo" />
     <None Include="Service References\Log\LogService.disco" />
     <None Include="Service References\Log\LogService.wsdl" />
     <None Include="Service References\Log\LogService.xsd">
@@ -135,6 +131,12 @@
     <None Include="Service References\Log\LogService1.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\Log\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\Log\configuration.svcinfo" />
+    <None Include="Service References\Log\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
