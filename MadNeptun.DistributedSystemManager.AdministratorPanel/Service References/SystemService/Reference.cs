@@ -8,26 +8,31 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
+
 namespace MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService {
-    using System.Runtime.Serialization;
-    using System;
-    
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="MessageOfstring", Namespace="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.O" +
+    [DebuggerStepThrough()]
+    [GeneratedCode("System.Runtime.Serialization", "4.0.0.0")]
+    [DataContract(Name="MessageOfstring", Namespace="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.O" +
         "bjects")]
-    [System.SerializableAttribute()]
-    public partial class MessageOfstring : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    [Serializable()]
+    public partial class MessageOfstring : object, IExtensibleDataObject, INotifyPropertyChanged {
         
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        [NonSerialized()]
+        private ExtensionDataObject extensionDataField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        [OptionalField()]
         private string ValueField;
         
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+        [Browsable(false)]
+        public ExtensionDataObject ExtensionData {
             get {
                 return this.extensionDataField;
             }
@@ -36,47 +41,47 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
+        [DataMember()]
         public string Value {
             get {
                 return this.ValueField;
             }
             set {
-                if ((object.ReferenceEquals(this.ValueField, value) != true)) {
+                if ((ReferenceEquals(this.ValueField, value) != true)) {
                     this.ValueField = value;
                     this.RaisePropertyChanged("Value");
                 }
             }
         }
         
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
             if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="NodeIdOfint", Namespace="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.O" +
+    [DebuggerStepThrough()]
+    [GeneratedCode("System.Runtime.Serialization", "4.0.0.0")]
+    [DataContract(Name="NodeIdOfint", Namespace="http://schemas.datacontract.org/2004/07/MadNeptun.DistributedSystemManager.Core.O" +
         "bjects")]
-    [System.SerializableAttribute()]
-    public partial class NodeIdOfint : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    [Serializable()]
+    public partial class NodeIdOfint : object, IExtensibleDataObject, INotifyPropertyChanged {
         
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        [NonSerialized()]
+        private ExtensionDataObject extensionDataField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Collections.Generic.Dictionary<string, string> ConnectionConfigurationField;
+        [OptionalField()]
+        private Dictionary<string, string> ConnectionConfigurationField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        [OptionalField()]
         private int IdField;
         
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+        [Browsable(false)]
+        public ExtensionDataObject ExtensionData {
             get {
                 return this.extensionDataField;
             }
@@ -85,20 +90,20 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Collections.Generic.Dictionary<string, string> ConnectionConfiguration {
+        [DataMember()]
+        public Dictionary<string, string> ConnectionConfiguration {
             get {
                 return this.ConnectionConfigurationField;
             }
             set {
-                if ((object.ReferenceEquals(this.ConnectionConfigurationField, value) != true)) {
+                if ((ReferenceEquals(this.ConnectionConfigurationField, value) != true)) {
                     this.ConnectionConfigurationField = value;
                     this.RaisePropertyChanged("ConnectionConfiguration");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
+        [DataMember()]
         public int Id {
             get {
                 return this.IdField;
@@ -111,53 +116,53 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService {
             }
         }
         
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
             if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://SystemCommunicationService", ConfigurationName="SystemService.ISystemCommunicationService")]
+    [GeneratedCode("System.ServiceModel", "4.0.0.0")]
+    [ServiceContract(Namespace="http://SystemCommunicationService", ConfigurationName="SystemService.ISystemCommunicationService")]
     public interface ISystemCommunicationService {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://SystemCommunicationService/ISystemCommunicationService/Receive")]
-        void Receive(MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService.MessageOfstring message, MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService.NodeIdOfint sender);
+        [OperationContract(IsOneWay=true, Action="http://SystemCommunicationService/ISystemCommunicationService/Receive")]
+        void Receive(MessageOfstring message, NodeIdOfint sender);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://SystemCommunicationService/ISystemCommunicationService/Init")]
+        [OperationContract(IsOneWay=true, Action="http://SystemCommunicationService/ISystemCommunicationService/Init")]
         void Init(string message);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://SystemCommunicationService/ISystemCommunicationService/ClearExpiredAlorith" +
+        [OperationContract(IsOneWay=true, Action="http://SystemCommunicationService/ISystemCommunicationService/ClearExpiredAlorith" +
             "ms")]
         void ClearExpiredAlorithms();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/Alive", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/AliveResponse")]
+        [OperationContract(Action="http://SystemCommunicationService/ISystemCommunicationService/Alive", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/AliveResponse")]
         bool Alive();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/Reconfigure", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/ReconfigureResponse" +
+        [OperationContract(Action="http://SystemCommunicationService/ISystemCommunicationService/Reconfigure", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/ReconfigureResponse" +
             "")]
         void Reconfigure(string[] configuration);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/SaveFileOnNode", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/SaveFileOnNodeRespo" +
+        [OperationContract(Action="http://SystemCommunicationService/ISystemCommunicationService/SaveFileOnNode", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/SaveFileOnNodeRespo" +
             "nse")]
         void SaveFileOnNode(string fullPathToSaveFile, byte[] file);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://SystemCommunicationService/ISystemCommunicationService/GetConfiguration", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/GetConfigurationRes" +
+        [OperationContract(Action="http://SystemCommunicationService/ISystemCommunicationService/GetConfiguration", ReplyAction="http://SystemCommunicationService/ISystemCommunicationService/GetConfigurationRes" +
             "ponse")]
         string[] GetConfiguration();
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ISystemCommunicationServiceChannel : MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService.ISystemCommunicationService, System.ServiceModel.IClientChannel {
+    [GeneratedCode("System.ServiceModel", "4.0.0.0")]
+    public interface ISystemCommunicationServiceChannel : ISystemCommunicationService, IClientChannel {
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SystemCommunicationServiceClient : System.ServiceModel.ClientBase<MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService.ISystemCommunicationService>, MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService.ISystemCommunicationService {
+    [DebuggerStepThrough()]
+    [GeneratedCode("System.ServiceModel", "4.0.0.0")]
+    public partial class SystemCommunicationServiceClient : ClientBase<ISystemCommunicationService>, ISystemCommunicationService {
         
         public SystemCommunicationServiceClient() {
         }
@@ -170,15 +175,15 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService {
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SystemCommunicationServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public SystemCommunicationServiceClient(string endpointConfigurationName, EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SystemCommunicationServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public SystemCommunicationServiceClient(Binding binding, EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
-        public void Receive(MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService.MessageOfstring message, MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService.NodeIdOfint sender) {
+        public void Receive(MessageOfstring message, NodeIdOfint sender) {
             base.Channel.Receive(message, sender);
         }
         

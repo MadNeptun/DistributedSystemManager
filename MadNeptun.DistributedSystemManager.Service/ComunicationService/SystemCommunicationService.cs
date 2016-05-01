@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
 using MadNeptun.DistributedSystemManager.Core.Objects;
 
@@ -59,7 +60,7 @@ namespace MadNeptun.DistributedSystemManager.Service.ComunicationService
 
         public void SaveFileOnNode(string fullPathToSaveFile, byte[] file)
         {
-            System.IO.File.WriteAllBytes(fullPathToSaveFile, file);
+            File.WriteAllBytes(fullPathToSaveFile, file);
         }
     }
 }

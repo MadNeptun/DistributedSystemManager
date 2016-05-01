@@ -8,24 +8,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.CodeDom.Compiler;
+using System.Diagnostics;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
+
 namespace MadNeptun.DistributedSystemManager.Service.Log {
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="Log.ILogService")]
+    [GeneratedCode("System.ServiceModel", "4.0.0.0")]
+    [ServiceContract(ConfigurationName="Log.ILogService")]
     public interface ILogService {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILogService/RecieveLog")]
+        [OperationContract(IsOneWay=true, Action="http://tempuri.org/ILogService/RecieveLog")]
         void RecieveLog(int senderId, string log);
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ILogServiceChannel : MadNeptun.DistributedSystemManager.Service.Log.ILogService, System.ServiceModel.IClientChannel {
+    [GeneratedCode("System.ServiceModel", "4.0.0.0")]
+    public interface ILogServiceChannel : ILogService, IClientChannel {
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class LogServiceClient : System.ServiceModel.ClientBase<MadNeptun.DistributedSystemManager.Service.Log.ILogService>, MadNeptun.DistributedSystemManager.Service.Log.ILogService {
+    [DebuggerStepThrough()]
+    [GeneratedCode("System.ServiceModel", "4.0.0.0")]
+    public partial class LogServiceClient : ClientBase<ILogService>, ILogService {
         
         public LogServiceClient() {
         }
@@ -38,11 +43,11 @@ namespace MadNeptun.DistributedSystemManager.Service.Log {
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public LogServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public LogServiceClient(string endpointConfigurationName, EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public LogServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public LogServiceClient(Binding binding, EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         

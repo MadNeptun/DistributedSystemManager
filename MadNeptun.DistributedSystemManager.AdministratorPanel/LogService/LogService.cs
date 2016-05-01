@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MadNeptun.DistributedSystemManager.AdministratorPanel.LogService
+﻿namespace MadNeptun.DistributedSystemManager.AdministratorPanel.LogService
 {
     internal class LogService : ILogService
     {

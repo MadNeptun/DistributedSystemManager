@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
+using System.Configuration;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Xml.Serialization;
 using MadNeptun.DistributedSystemManager.AdministratorPanel.LogService;
-using MadNeptun.DistributedSystemManager.AdministratorPanel.SystemService;
 
 namespace MadNeptun.DistributedSystemManager.AdministratorPanel
 {
@@ -22,38 +13,73 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel
     /// </summary>
     public partial class MainWindow : Window
     {
-        private LogManager _logManager;
+        private readonly LogManager _logManager;
+        private NodesConnectionManager _nodesConnectionManager;
+
+        public NodesConnectionManager NodesConnectionManager
+        {
+            get { return _nodesConnectionManager;}
+            set { _nodesConnectionManager = value; }
+        }
+
+        private List<string> _logs = new List<string>();
 
         public MainWindow()
         {
-            InitializeComponent();
-        }
-        private List<string> _list = new List<string>();
-        private bool ate;
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            _logManager = new LogManager(false, "http://localhost:5000/LogService.svc", (o, args) =>
+            var serializer = new XmlSerializer(typeof(Configuration));
+            
+            var path = ConfigurationManager.AppSettings["xmlConfigFile"];
+            using (var file = new FileStream(path, FileMode.Open))
             {
-                _list = args.CurrentLog.Select( r=> r.ToString()).ToList();
-            });
-            SystemService.SystemCommunicationServiceClient client = new SystemCommunicationServiceClient("WSHttpBinding_ISystemCommunicationService");
-            ate = client.Alive();
-            try
-            {
-                client.Init("hakunamatata");
+                var configuration = (Configuration)serializer.Deserialize(file);
+                _logManager = new LogManager(configuration.UseLogFile, configuration.LogServiceAddress);
+                _nodesConnectionManager = new NodesConnectionManager(configuration.Nodes);
+
+                InitializeComponent();
+                NodeListView.DataContext = this;
+                NodeListView.ItemsSource = configuration.Nodes;
+                LogListView.DataContext = this;
+                LogListView.ItemsSource = _logManager.Collection;
             }
-            catch (Exception ex)
-            {
-                var t = ex;
-            }
-           
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void MainWindow_OnClosed(object sender, EventArgs e)
         {
-            _logManager.Dispose();
+            if(_logManager != null)
+                _logManager.Dispose();
+
+            if (_nodesConnectionManager != null)
+                _nodesConnectionManager.Dispose();
         }
 
+        private void EndHeartbeat_OnClick(object sender, RoutedEventArgs e)
+        {
+            _nodesConnectionManager.StopStatusCheck();
+        }
 
+        private void StartHeartbeat_OnClick(object sender, RoutedEventArgs e)
+        {
+            _nodesConnectionManager.StartStatusCheck();
+        }
+
+        private void SendInitMessage_OnClick(object sender, RoutedEventArgs e)
+        {
+            var node = GetActiveNode();
+            if (node == null)
+                return;
+
+            var dialog = new InitMessageWindow();
+            var result = dialog.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                _nodesConnectionManager.SendInitToActiveNode(node, dialog.Message);
+            }
+        }
+
+        private Node GetActiveNode()
+        {
+            return (Node)NodeListView.SelectedItem;
+        }
     }
 }

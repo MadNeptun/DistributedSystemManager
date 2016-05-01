@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
 using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
 using MadNeptun.DistributedSystemManager.Core.Objects;
 using MadNeptun.DistributedSystemManager.Service.ComunicationService;
+using MadNeptun.DistributedSystemManager.Service.Log;
 
 namespace MadNeptun.DistributedSystemManager.Service
 {
@@ -51,7 +50,7 @@ namespace MadNeptun.DistributedSystemManager.Service
         {
             try
             {
-                var adminPanel = new Log.LogServiceClient("BasicHttpBinding_ILogService");
+                var adminPanel = new LogServiceClient("BasicHttpBinding_ILogService");
                 adminPanel.RecieveLog(_networkNode.GetId().Id, log);
                 adminPanel.Close();
             }

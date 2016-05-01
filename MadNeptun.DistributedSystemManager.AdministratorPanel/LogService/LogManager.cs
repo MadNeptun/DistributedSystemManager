@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace MadNeptun.DistributedSystemManager.AdministratorPanel.LogService
 {
@@ -12,9 +9,14 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel.LogService
 
         private readonly LogCollection _logCollection;
 
-        public LogManager(bool allowLogFile, string serviceUrl, LogCollection.NewLogEntry newLogEntryDelegate)
+        public ObservableCollection<LogEntry> Collection
         {
-            _logCollection = new LogCollection(allowLogFile, newLogEntryDelegate);
+            get { return _logCollection.Collection;  }
+        }
+
+        public LogManager(bool allowLogFile, string serviceUrl)
+        {
+            _logCollection = new LogCollection(allowLogFile);
             RunService(serviceUrl);
         }
 

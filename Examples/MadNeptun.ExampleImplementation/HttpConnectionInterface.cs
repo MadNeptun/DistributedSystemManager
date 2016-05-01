@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.ServiceModel.Description;
 using MadNeptun.DistributedSystemManager.Core.AbstractEntities;
 using MadNeptun.DistributedSystemManager.Core.Objects;
 using MadNeptun.ExampleImplementation.ServiceHostInfrastructure;
+using MadNeptun.ExampleImplementation.SoapService;
 
 namespace MadNeptun.ExampleImplementation
 {
@@ -34,7 +33,7 @@ namespace MadNeptun.ExampleImplementation
                 {
                     var binding = new BasicHttpBinding("BasicHttpBinding_ISoapComunicationService");
                     var address = new EndpointAddress(package.Key.ConnectionConfiguration["url"]);
-                    var client = new SoapService.SoapComunicationServiceClient(binding, address);
+                    var client = new SoapComunicationServiceClient(binding, address);
                     client.Recieve(package.Key,package.Value);
                     client.Close();
                 }
