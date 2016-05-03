@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Configuration>
+<ArrayOfNeighbour>
   <Neighbour>
     <Id>1</Id>
     <Url>http://10.0.2.10:9090/SoapComunicationService.svc</Url>
@@ -32,4 +32,4 @@
     <Id>8</Id>
     <Url>http://10.0.2.19:9090/SoapComunicationService.svc</Url>
   </Neighbour>
-</Configuration>
+</ArrayOfNeighbour>
