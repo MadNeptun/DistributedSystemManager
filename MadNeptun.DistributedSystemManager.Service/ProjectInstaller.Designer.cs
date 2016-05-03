@@ -31,25 +31,35 @@ namespace MadNeptun.DistributedSystemManager.Service
         /// </summary>
         private void InitializeComponent()
         {
-            this.DsmNodeService = new System.ServiceProcess.ServiceInstaller();
+            this.DmsProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
+            this.DmsServiceInstaller = new System.ServiceProcess.ServiceInstaller();
             // 
-            // DsmNodeService
+            // DmsProcessInstaller
             // 
-            this.DsmNodeService.Description = "Service that hosts node of distributed network";
-            this.DsmNodeService.DisplayName = "DSM Node Service";
-            this.DsmNodeService.ServiceName = "NetworkService";
-            this.DsmNodeService.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.DmsProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
+            this.DmsProcessInstaller.Password = null;
+            this.DmsProcessInstaller.Username = null;
+            // 
+            // DmsServiceInstaller
+            // 
+            this.DmsServiceInstaller.Description = "Service that hosts node infractructure";
+            this.DmsServiceInstaller.DisplayName = "DMS Node Host";
+            this.DmsServiceInstaller.ServiceName = "NetworkService";
+            this.DmsServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
-            this.DsmNodeService});
+            this.DmsProcessInstaller,
+            this.DmsServiceInstaller});
 
         }
 
         #endregion
 
-        private ServiceInstaller DsmNodeService;
+        private ServiceProcessInstaller DmsProcessInstaller;
+        private ServiceInstaller DmsServiceInstaller;
+
 
     }
 }
