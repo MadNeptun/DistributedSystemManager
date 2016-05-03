@@ -26,20 +26,28 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel
 
         public MainWindow()
         {
-            var serializer = new XmlSerializer(typeof(Configuration));
-            
-            var path = ConfigurationManager.AppSettings["xmlConfigFile"];
-            using (var file = new FileStream(path, FileMode.Open))
-            {
-                var configuration = (Configuration)serializer.Deserialize(file);
-                _logManager = new LogManager(configuration.UseLogFile, configuration.LogServiceAddress);
-                _nodesConnectionManager = new NodesConnectionManager(configuration.Nodes);
+            try
 
-                InitializeComponent();
-                NodeListView.DataContext = this;
-                NodeListView.ItemsSource = configuration.Nodes;
-                LogListView.DataContext = this;
-                LogListView.ItemsSource = _logManager.Collection;
+            {
+                var serializer = new XmlSerializer(typeof (Configuration));
+
+                var path = ConfigurationManager.AppSettings["xmlConfigFile"];
+                using (var file = new FileStream(path, FileMode.Open))
+                {
+                    var configuration = (Configuration) serializer.Deserialize(file);
+                    _logManager = new LogManager(configuration.UseLogFile, configuration.LogServiceAddress);
+                    _nodesConnectionManager = new NodesConnectionManager(configuration.Nodes);
+
+                    InitializeComponent();
+                    NodeListView.DataContext = this;
+                    NodeListView.ItemsSource = configuration.Nodes;
+                    LogListView.DataContext = this;
+                    LogListView.ItemsSource = _logManager.Collection;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 
