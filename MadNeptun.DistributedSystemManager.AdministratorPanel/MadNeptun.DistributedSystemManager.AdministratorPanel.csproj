@@ -197,7 +197,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="adminPanelConfig.xml">
+    <Resource Include="AdminPanelConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

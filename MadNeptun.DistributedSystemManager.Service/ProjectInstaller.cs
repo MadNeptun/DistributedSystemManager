@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.ComponentModel;
 using System.Configuration.Install;
+using System.ServiceProcess;
 
 namespace MadNeptun.DistributedSystemManager.Service
 {

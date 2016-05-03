@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNeptun.SoapService", "Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadNeptun.DistributedSystemManager.AdministratorPanel", "MadNeptun.DistributedSystemManager.AdministratorPanel\MadNeptun.DistributedSystemManager.AdministratorPanel.csproj", "{86F5A404-1710-475C-AA43-40F96E74E64D}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MadNeptun.DustributedSystemManager.Installer", "MadNeptun.DustributedSystemManager.Installer\MadNeptun.DustributedSystemManager.Installer.vdproj", "{EF3FCE12-594F-4995-9A85-541EDF445BB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,8 @@ Global
 		{86F5A404-1710-475C-AA43-40F96E74E64D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86F5A404-1710-475C-AA43-40F96E74E64D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86F5A404-1710-475C-AA43-40F96E74E64D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF3FCE12-594F-4995-9A85-541EDF445BB0}.Debug|Any CPU.ActiveCfg = Debug
+		{EF3FCE12-594F-4995-9A85-541EDF445BB0}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
