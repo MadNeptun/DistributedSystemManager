@@ -50,7 +50,7 @@ namespace MadNeptun.DistributedSystemManager.Service
         {
             try
             {
-                var adminPanel = new LogServiceClient("BasicHttpBinding_ILogService");
+                var adminPanel = new LogServiceClient("LOG");
                 adminPanel.RecieveLog(_networkNode.GetId().Id, log);
                 adminPanel.Close();
             }

@@ -31,9 +31,8 @@ namespace MadNeptun.ExampleImplementation
             {
                 try
                 {
-                    var binding = new BasicHttpBinding("BasicHttpBinding_ISoapComunicationService");
                     var address = new EndpointAddress(package.Key.ConnectionConfiguration["url"]);
-                    var client = new SoapComunicationServiceClient(binding, address);
+                    var client = new SoapComunicationServiceClient("SCS", address);
                     client.Recieve(package.Key,package.Value);
                     client.Close();
                 }

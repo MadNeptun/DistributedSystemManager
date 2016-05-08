@@ -9,7 +9,7 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel
 {
     public class NodesConnectionManager : IDisposable
     {
-        private readonly List<KeyValuePair<Node,SystemCommunicationServiceClient>> _nodes;
+        private readonly List<Node> _nodes;
 
         private readonly Thread _workerThread;
 
@@ -18,11 +18,8 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel
         public NodesConnectionManager(List<Node> currentNodes)
         {
             _checkStatus = false;
-            _nodes = new List<KeyValuePair<Node, SystemCommunicationServiceClient>>();
-            foreach (var node in currentNodes)
-            {
-                _nodes.Add(new KeyValuePair<Node, SystemCommunicationServiceClient>(node, GetWcfClient(node)));
-            }
+            _nodes = currentNodes;
+            
             _workerThread = new Thread(ThreadMethod);
             _workerThread.Start();
         }
@@ -36,14 +33,21 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel
                 {
                     foreach (var node in _nodes)
                     {
+                        var client = GetWcfClient(node);
                         try
                         {
-                            if (node.Value.Alive())
-                                node.Key.Alive();
+                            if (client.Alive())
+                                node.Alive();
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            node.Key.Dead();
+                            MessageBox.Show(ex.ToString());
+                            node.Dead();
+                        }
+                        finally
+                        {
+                            if(client!=null)
+                                client.Close();
                         }
                     }
                 }
@@ -52,7 +56,7 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel
 
         private SystemCommunicationServiceClient GetWcfClient(Node node)
         {
-            return new SystemCommunicationServiceClient("WSHttpBinding_ISystemCommunicationService", node.NodeAddress);
+            return new SystemCommunicationServiceClient("SCS", node.NodeAddress);
         }
 
         public void Dispose()
@@ -64,11 +68,6 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel
             catch (ThreadAbortException)
             {
                 //continue
-            }
-           
-            foreach (var node in _nodes)
-            {
-                node.Value.Close();
             }
         }
 
@@ -82,20 +81,26 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel
             _checkStatus = false;
             foreach (var node in _nodes)
             {
-                node.Key.ClearStatus();
+                node.ClearStatus();
             }
         }
 
         internal void SendInitToActiveNode(Node node, string message)
         {
+            var client = GetWcfClient(_nodes.First(e => e == node));
             try
             {
-                _nodes.First(e => e.Key == node).Value.Init(message);
+                client.Init(message);
                 MessageBox.Show("Init message sent.");
             }
             catch (Exception)
             {
                 MessageBox.Show("Failed to send init message.");
+            }
+            finally
+            {
+                if(client != null)
+                    client.Close();
             }
             
         }
