@@ -8,30 +8,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.CodeDom.Compiler;
-using System.Diagnostics;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using MadNeptun.DistributedSystemManager.Core.Objects;
-
 namespace MadNeptun.ExampleImplementation.SoapService {
     
     
-    [GeneratedCode("System.ServiceModel", "4.0.0.0")]
-    [ServiceContract(ConfigurationName="SoapService.ISoapComunicationService")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SoapService.ISoapComunicationService")]
     public interface ISoapComunicationService {
         
-        [OperationContract(IsOneWay=true, Action="http://tempuri.org/ISoapComunicationService/Recieve")]
-        void Recieve(NodeId<int> sender, Message<string> message);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISoapComunicationService/Recieve")]
+        void Recieve(MadNeptun.DistributedSystemManager.Core.Objects.NodeId<int> sender, MadNeptun.DistributedSystemManager.Core.Objects.Message<string> message);
     }
     
-    [GeneratedCode("System.ServiceModel", "4.0.0.0")]
-    public interface ISoapComunicationServiceChannel : ISoapComunicationService, IClientChannel {
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface ISoapComunicationServiceChannel : MadNeptun.ExampleImplementation.SoapService.ISoapComunicationService, System.ServiceModel.IClientChannel {
     }
     
-    [DebuggerStepThrough()]
-    [GeneratedCode("System.ServiceModel", "4.0.0.0")]
-    public partial class SoapComunicationServiceClient : ClientBase<ISoapComunicationService>, ISoapComunicationService {
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class SoapComunicationServiceClient : System.ServiceModel.ClientBase<MadNeptun.ExampleImplementation.SoapService.ISoapComunicationService>, MadNeptun.ExampleImplementation.SoapService.ISoapComunicationService {
         
         public SoapComunicationServiceClient() {
         }
@@ -44,15 +38,15 @@ namespace MadNeptun.ExampleImplementation.SoapService {
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SoapComunicationServiceClient(string endpointConfigurationName, EndpointAddress remoteAddress) : 
+        public SoapComunicationServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SoapComunicationServiceClient(Binding binding, EndpointAddress remoteAddress) : 
+        public SoapComunicationServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
-        public void Recieve(NodeId<int> sender, Message<string> message) {
+        public void Recieve(MadNeptun.DistributedSystemManager.Core.Objects.NodeId<int> sender, MadNeptun.DistributedSystemManager.Core.Objects.Message<string> message) {
             base.Channel.Recieve(sender, message);
         }
     }

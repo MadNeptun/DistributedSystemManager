@@ -19,7 +19,7 @@ namespace MadNeptun.DistributedSystemManager.AdministratorPanel.LogService
 
         public override string ToString()
         {
-            return string.Format("{0}\t{1}\t{2}", RecieveDateTime, SenderId, Log);
+            return string.Format("{0} | Receiver: {1} | Message: {2}", RecieveDateTime, SenderId, Log);
         }
     }
 }
