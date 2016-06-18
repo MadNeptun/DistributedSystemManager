@@ -43,7 +43,10 @@ namespace MadNeptun.DistributedSystemManager.Core.Objects
 
         private void _networkComponent_OnMessageReceived(object sender, MessageReceivedEventArgs<TIdType, TValue> e)
         {
-            ReceiveMessage(e.Message, e.NodeId);
+            lock (_lockObject)
+            {
+                ReceiveMessage(e.Message, e.NodeId);
+            }           
         }
 
         private void ReceiveMessage(Message<TValue> message, NodeId<TIdType> sender)
